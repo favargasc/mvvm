@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "450070859890",
+    "project_id": "comedoritcr-bbd66",
+    "storage_bucket": "comedoritcr-bbd66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450070859890:android:dd98b6bbd8d55bb58e32eb",
+        "android_client_info": {
+          "package_name": "com.example.mvvm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450070859890-kqfhklshaccde21uebt890u816vm6sf0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsAqaSg0zhiR-vgidFlfyL5OyeniVhYRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450070859890-kqfhklshaccde21uebt890u816vm6sf0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
