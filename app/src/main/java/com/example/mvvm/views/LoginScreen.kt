@@ -18,9 +18,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.mvvm.navigation.AppScreens
+import com.example.mvvm.viewmodels.UserViewModel
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, userViewModel: UserViewModel) {
+    val (studentEmail, setStudentEmail) = remember { mutableStateOf("") }
+    val (password, setPassword) = remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -29,10 +33,10 @@ fun LoginScreen(navController: NavController) {
         LoginImage()
         FormTitle("Iniciar sesión")
         Spacer(modifier = Modifier.height(30.dp))
-        //FormEntry("Correo institucional")
-        //FormEntry("Contraseña")
+        FormEntry("Correo institucional", studentEmail, setStudentEmail)
+        FormEntry("Contraseña", password, setPassword)
 
-        //FormButton("Iniciar sesión como estudiante", navController, AppScreens.MainMenuScreen.route)
+        FormButton("Iniciar sesión como estudiante", navController, AppScreens.MainMenuScreen.route, userViewModel, studentEmail, password)
         LightFormButton("Iniciar sesión como administrador", navController, AppScreens.MainMenuScreen.route)
         Spacer(modifier = Modifier.height(20.dp))
         LoginRedirect("¿Aún no tienes una cuenta?", " Registrate", navController)

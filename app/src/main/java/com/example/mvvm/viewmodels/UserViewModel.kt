@@ -12,29 +12,12 @@ class UserViewModel
 @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
-    val dni = MutableStateFlow("")
-    val dsi = MutableStateFlow("")
-    val fullName = MutableStateFlow("")
-    val lastName = MutableStateFlow("")
-    val maidenName = MutableStateFlow("")
-    val age = MutableStateFlow(0)
-    val date = MutableStateFlow("")
-    val studentEmail = MutableStateFlow("")
-    val password = MutableStateFlow("")
+    fun addNewUser(user: User) {
+        userRepository.addNewUser(user)
+    }
 
-    fun addNewUser() {
-        userRepository.addNewUser(
-            User(
-                dni.value,
-                dsi.value,
-                fullName.value,
-                lastName.value,
-                maidenName.value,
-                age.value,
-                date.value,
-                studentEmail.value,
-                password.value
-            )
-        )
+    fun isValidUser(studentEmail: String, password: String): Boolean {
+        println(userRepository.isValidUser(studentEmail, password))
+        return userRepository.isValidUser(studentEmail, password)
     }
 }

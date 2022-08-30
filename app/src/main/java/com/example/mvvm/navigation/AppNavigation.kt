@@ -22,7 +22,7 @@ fun AppNavigation(context: Context, userViewModel: UserViewModel) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = AppScreens.LoginScreen.route) {
         composable(route = AppScreens.LoginScreen.route) {
-            LoginScreen(navController)
+            LoginScreen(navController, userViewModel)
         }
         composable(route = AppScreens.MealsManagerScreen.route) {
             MealsManagerScreen()

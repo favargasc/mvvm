@@ -1,15 +1,19 @@
 package com.example.mvvm.repositories
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.example.mvvm.models.User
 import com.google.firebase.firestore.CollectionReference
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class UserRepository
 @Inject constructor(
-    private val userList: CollectionReference // entidad
+    private val userList: CollectionReference
 ) {
+    //funcional
     fun addNewUser(user: User) {
         try {
             userList.document(user.dni).set(user)
@@ -17,20 +21,6 @@ class UserRepository
             e.printStackTrace()
         }
     }
-
-    /*fun getUsers(id: String): User? {
-        var user: User? = null
-
-        userList
-            .document(id)
-            .get()
-            .addOnSuccessListener {
-                user = Admin(
-                    it.get("id") as String,
-                    it.get("username") as String,
-                    it.get("password") as String,
-                )
-            }
-        return user
-    }*/
+    // falta implementacion
+    fun isValidUser(_studentEmail: String, _password: String): Boolean = true
 }

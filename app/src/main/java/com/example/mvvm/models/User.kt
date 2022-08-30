@@ -9,5 +9,6 @@ data class User(
     val age: Int,
     val date: String,
     val studentEmail: String,
-    val password: String
+    val password: String,
+    val isAdmin: Boolean = false
 )

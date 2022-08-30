@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.navigation.NavController
+import com.example.mvvm.models.User
 import com.example.mvvm.navigation.AppScreens
 import com.example.mvvm.viewmodels.UserViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,13 +41,16 @@ fun RegisterScreen(context: Context, navController: NavController, userViewModel
     val (studentEmail, setStudentEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
 
-    Column (
+    val background = remember { mutableStateOf(Color(0xFFF0F5FE)) }
+    val border = remember { mutableStateOf(Color(0xFFF0F5FE)) }
+
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
-        TopAppBar (
+        TopAppBar(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
                 .height(80.dp),
@@ -55,7 +59,7 @@ fun RegisterScreen(context: Context, navController: NavController, userViewModel
             },
             backgroundColor = Color.White,
             navigationIcon = {
-                IconButton(onClick = { navController.navigate(AppScreens.LoginScreen.route)}) {
+                IconButton(onClick = { navController.navigate(AppScreens.LoginScreen.route) }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "",
@@ -67,24 +71,31 @@ fun RegisterScreen(context: Context, navController: NavController, userViewModel
             elevation = 0.dp
         )
         Spacer(modifier = Modifier.height(20.dp))
-        FormEntry("Número de cédula", userViewModel, )
-        FormEntry("Número de carné", userViewModel)
-        FormEntry("Nombre", userViewModel)
-        FormEntry("Primer apellido", userViewModel)
-        FormEntry("Segundo apellido", userViewModel)
-        FormEntry("Fecha de nacimiento", context, userViewModel)
-        FormEntry("Correo institucional", userViewModel)
-        FormEntry("Contraseña", userViewModel)
-        FormButton("Crear cuenta", navController, AppScreens.LoginScreen.route, userViewModel)
+        FormEntry("Número de cédula", dni, setDni)
+        FormEntry("Número de carné", dsi, setDsi)
+        FormEntry("Nombre", fullName, setFullName)
+        FormEntry("Primer apellido", lastName, setLastName)
+        FormEntry("Segundo apellido", maidenName, setMaidenName)
+        FormEntry("Fecha de nacimiento", context, date, setDate, age, setAge)
+        FormEntry("Correo institucional", studentEmail, setStudentEmail)
+        FormEntry("Contraseña", password, setPassword)
+        FormButton(
+            "Crear cuenta",
+            navController,
+            AppScreens.LoginScreen.route,
+            userViewModel,
+            User(dni, dsi, fullName, lastName, maidenName, age, date, studentEmail, password)
+        )
     }
+}
 
 @Composable
-fun FormEntry(labelText: String, state:  MutableStateFlow<String>) {
+fun FormEntry(labelText: String, state: String, onValueChange: (String) -> Unit) {
     Column(
         modifier = Modifier.padding(bottom = 10.dp)
     ) {
         FormLabel(labelText)
-        BlueInput(state)
+        BlueInput(state, onValueChange)
     }
 }
 
@@ -100,12 +111,12 @@ fun FormEntry(age: Int, labelText: String) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun FormEntry(labelText: String, context: Context, date:  MutableStateFlow<String>, age:  MutableStateFlow<Int>) {
+fun FormEntry(labelText: String, context: Context, date: String, onDateChange: (String) -> Unit, age: Int, onAgeChange: (Int) -> Unit) {
     Column(
         modifier = Modifier.padding(bottom = 10.dp)
     ) {
         FormLabel(labelText)
-        DatePickerForm(context, date, age)
+        DatePickerForm(context, date, onDateChange, age, onAgeChange)
     }
 }
 
@@ -122,10 +133,10 @@ fun FormTitle(text: String) {
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun BlueInput(state: MutableStateFlow<String>) {
+fun BlueInput(state: String, onValueChange: (String) -> Unit) {
     OutlinedTextField(
-        value = state.value,
-        onValueChange = { state.value = it },
+        value = state,
+        onValueChange = onValueChange,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             backgroundColor = Color(0xFFF0F5FE),
             focusedBorderColor = Color.Blue,
@@ -168,7 +179,7 @@ fun FormLabel(text: String) {
 @SuppressLint("StateFlowValueCalledInComposition")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DatePickerForm(context: Context, date:  MutableStateFlow<String>, age:  MutableStateFlow<Int>) {
+fun DatePickerForm(context: Context, date: String, onDateChange: (String) -> Unit, age: Int, onAgeChange: (Int) -> Unit) {
     val calendar = Calendar.getInstance()
 
     val year = calendar.get(Calendar.YEAR)
@@ -184,13 +195,13 @@ fun DatePickerForm(context: Context, date:  MutableStateFlow<String>, age:  Muta
             y: Int,
             m: Int,
             dayOfMonth: Int ->
-                date.value = "$dayOfMonth/${m + 1}/$y"
-                age.value = setAge(dayOfMonth, m, y)
+                onDateChange("$dayOfMonth/${m + 1}/$y")
+                onAgeChange(setAge(dayOfMonth, m, y))
 
         }, year, month, day
     )
     OutlinedTextField(
-        value = date.value,
+        value = date,
         enabled = false,
         onValueChange = {},
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -203,7 +214,7 @@ fun DatePickerForm(context: Context, date:  MutableStateFlow<String>, age:  Muta
             .height(52.dp)
             .clickable(onClick = { datePickerDialog.show() })
     )
-    FormEntry(age.value, "Edad")
+    FormEntry(age, "Edad")
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -215,11 +226,47 @@ fun setAge(day: Int, month: Int, year: Int): Int {
 }
 
 @Composable
-fun FormButton(text: String, navController: NavController, route: String, userViewModel: UserViewModel) {
+fun FormButton(text: String, navController: NavController, route: String, userViewModel: UserViewModel, user: User) {
     Button(
         onClick = {
-            userViewModel.addNewUser()
+            userViewModel.addNewUser(user)
             navController.navigate(route = route)
+        },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color(0xFF39439D)
+        ),
+        shape = RoundedCornerShape(10.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 40.dp,
+                end = 40.dp,
+                top = 35.dp,
+                bottom = 10.dp
+            )
+            .height(55.dp)
+    ) {
+        Text(
+            text = text,
+            color = Color.White,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun FormButton(
+    text: String,
+    navController: NavController,
+    route: String,
+    userViewModel: UserViewModel,
+    studentEmail: String,
+    password: String
+) {
+    Button(
+        onClick = {
+            if (userViewModel.isValidUser(studentEmail, password)) navController.navigate(route)
         },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF39439D)
