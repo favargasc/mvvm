@@ -29,10 +29,10 @@ fun LoginScreen(navController: NavController) {
         LoginImage()
         FormTitle("Iniciar sesión")
         Spacer(modifier = Modifier.height(30.dp))
-        FormEntry("Correo institucional")
-        FormEntry("Contraseña")
+        //FormEntry("Correo institucional")
+        //FormEntry("Contraseña")
 
-        FormButton("Iniciar sesión como estudiante", navController, AppScreens.MainMenuScreen.route)
+        //FormButton("Iniciar sesión como estudiante", navController, AppScreens.MainMenuScreen.route)
         LightFormButton("Iniciar sesión como administrador", navController, AppScreens.MainMenuScreen.route)
         Spacer(modifier = Modifier.height(20.dp))
         LoginRedirect("¿Aún no tienes una cuenta?", " Registrate", navController)

@@ -9,13 +9,15 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mvvm.repositories.UserRepository
+import com.example.mvvm.viewmodels.UserViewModel
 import com.example.mvvm.views.*
 
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AppNavigation(context: Context) {
+fun AppNavigation(context: Context, userViewModel: UserViewModel) {
 
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = AppScreens.LoginScreen.route) {
@@ -29,7 +31,7 @@ fun AppNavigation(context: Context) {
             MainMenuScreen(navController)
         }
         composable(route = AppScreens.RegisterScreen.route) {
-            RegisterScreen(context, navController)
+            RegisterScreen(context, navController, userViewModel)
         }
 
         composable(route = AppScreens.ShoppingCartScreen.route) {
