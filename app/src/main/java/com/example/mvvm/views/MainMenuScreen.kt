@@ -91,6 +91,7 @@ val mealsList = mutableStateListOf(
     )
 )
 
+//agregar en firestore
 val mealsIcons = listOf(
     MealsIcon(1, "Principales", "https://img.icons8.com/glyph-neue/344/rice-bowl.png"),
     MealsIcon(2, "Postres", "https://img.icons8.com/glyph-neue/344/ice-cream-bowl.png"),
@@ -98,6 +99,7 @@ val mealsIcons = listOf(
     MealsIcon(4, "Bebidas", "https://img.icons8.com/glyph-neue/344/soda-cup.png"),
 )
 
+//horarios, almuezo, cena...
 val mealsIcons2 = listOf(
     MealsIcon(1, "Principales", "https://img.icons8.com/ios-filled/344/0800.png"),
     MealsIcon(2, "Postres", "https://img.icons8.com/ios-filled/344/1100.png"),

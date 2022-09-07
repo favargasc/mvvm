@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mvvm.repositories.UserRepository
+import com.example.mvvm.viewmodels.MealViewModel
 import com.example.mvvm.viewmodels.UserViewModel
 import com.example.mvvm.views.*
 
@@ -17,7 +18,7 @@ import com.example.mvvm.views.*
 @ExperimentalMaterialApi
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AppNavigation(context: Context, userViewModel: UserViewModel) {
+fun AppNavigation(context: Context, userViewModel: UserViewModel, mealViewModel: MealViewModel) {
 
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = AppScreens.LoginScreen.route) {
@@ -25,7 +26,7 @@ fun AppNavigation(context: Context, userViewModel: UserViewModel) {
             LoginScreen(navController, userViewModel)
         }
         composable(route = AppScreens.MealsManagerScreen.route) {
-            MealsManagerScreen()
+            MealsManagerScreen(mealViewModel)
         }
         composable(route = AppScreens.MainMenuScreen.route) {
             MainMenuScreen(navController)

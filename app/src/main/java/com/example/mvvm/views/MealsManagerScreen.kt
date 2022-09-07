@@ -1,7 +1,9 @@
 package com.example.mvvm.views
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.text.style.BackgroundColorSpan
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -23,8 +25,11 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.mvvm.models.Meal
+import com.example.mvvm.viewmodels.MealViewModel
+
+import com.example.mvvm.viewmodels.UserViewModel
 import com.example.mvvm.views.LoginScreen
-val meals = listOf<Meal>(
+/*val meals = listOf<Meal>(
     Meal(
         "CM",
         "Pinto",
@@ -81,10 +86,11 @@ val meals = listOf<Meal>(
         "Postre",
         10000.0
     )
-)
+)*/
+
 
 @Composable
-fun MealsManagerScreen() {
+fun MealsManagerScreen(mealViewModel: MealViewModel) {
     var showMenu by remember { mutableStateOf(false)}
 
     Column {
@@ -124,9 +130,13 @@ fun MealsManagerScreen() {
                 .padding(top = 20.dp)
         )
         {
-            items(meals) { meal ->
-                MealCard(meal)
+            //aqui
+            mealViewModel.getMeals(){meals->
+                items(meals) { meal ->
+                    MealCard(meal)
+                }
             }
+
         }
     }
 }
