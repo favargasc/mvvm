@@ -15,12 +15,16 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mvvm.navigation.AppNavigation
 import com.example.mvvm.ui.theme.MvvmTheme
+import com.example.mvvm.viewmodels.MealViewModel
+import com.example.mvvm.viewmodels.OrderViewModel
 import com.example.mvvm.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val userViewModel: UserViewModel by viewModels()
+    private val mealViewModel: MealViewModel by viewModels()
+    private val orderViewModel: OrderViewModel by viewModels()
 
     @ExperimentalUnitApi
     @ExperimentalMaterialApi
@@ -29,14 +33,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MvvmTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
                     AppNavigation(
                         this,
-                        userViewModel
+                        userViewModel,
                     )
                 }
             }

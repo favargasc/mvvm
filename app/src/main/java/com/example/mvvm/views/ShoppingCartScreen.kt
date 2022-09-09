@@ -23,8 +23,8 @@ import com.example.mvvm.navigation.AppScreens
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Composable
-fun ShoppingCartScreen(navController: NavController) {
-
+fun ShoppingCartScreen(navController: NavController) {}
+/*
     Column {
         TopAppBar (
             modifier = Modifier
@@ -56,20 +56,20 @@ fun ShoppingCartScreen(navController: NavController) {
             elevation = 0.dp
         )
 
-        MealsListRemove(
+/*        MealsListRemove (
             false, 450
         ) {
             ProductContent(
-                { ProductImage() },
-                { ProductTitle() },
-                { ProductCost() }
+                { ProductImage("") },
+                { ProductTitle("") },
+                { ProductCost(0.0) }
             )
         }
         Payment()
         OrderButton("Pagar")
-    }
-}
-
+    }*/
+}*/
+/*
 @Composable
 fun Payment() {
     Box(
@@ -114,4 +114,4 @@ fun PaymentDetail(text: String, align: TextAlign) {
         modifier = Modifier
             .width(180.dp)
     )
-}
+}*/

@@ -15,9 +15,4 @@ class UserViewModel
     fun addNewUser(user: User) {
         userRepository.addNewUser(user)
     }
-
-    fun isValidUser(studentEmail: String, password: String): Boolean {
-        println(userRepository.isValidUser(studentEmail, password))
-        return userRepository.isValidUser(studentEmail, password)
-    }
 }

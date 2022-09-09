@@ -23,70 +23,12 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.mvvm.models.Meal
-import com.example.mvvm.views.LoginScreen
-val meals = listOf<Meal>(
-    Meal(
-        "CM",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "CM",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "CM",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "CM",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "CM",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "CM",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "CM",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "CM",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    )
-)
+
 
 @Composable
 fun MealsManagerScreen() {
     var showMenu by remember { mutableStateOf(false)}
-
+/*
     Column {
         TopAppBar(
             backgroundColor = Color(0xFF003579),
@@ -128,14 +70,14 @@ fun MealsManagerScreen() {
                 MealCard(meal)
             }
         }
-    }
+    }*/
 }
 
 @Composable
 fun MealCard(meal: Meal) {
     var backgroundColor: Long = 0xFFE6ECF4
 
-    if (!meal.availability) {
+    /*if (!meal.availability) {
         backgroundColor = 0xFFFEE6E5
     }
 
@@ -158,7 +100,7 @@ fun MealCard(meal: Meal) {
             MealBodyCard(meal.ID, meal.name, meal.cost)
             OptionMenu()
         }
-    }
+    }*/
 }
 
 @Composable

@@ -68,7 +68,12 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     //coil
     implementation "io.coil-kt:coil-compose:2.1.0"
-
+    //coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.3.5"
+    //Swipe refresh
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.18.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

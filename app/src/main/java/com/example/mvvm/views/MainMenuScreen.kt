@@ -1,9 +1,5 @@
 package com.example.mvvm.views
 
-import android.media.Image
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,9 +15,9 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
@@ -29,68 +25,9 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.mvvm.models.Meal
 import com.example.mvvm.models.MealsIcon
-import com.example.mvvm.navigation.AppNavigation
 import com.example.mvvm.navigation.AppScreens
-
-val mealsList = mutableStateListOf(
-    Meal(
-        "10",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "9",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "8",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "1",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "2",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "3",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "4",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    ),
-    Meal(
-        "5",
-        "Pinto",
-        true,
-        "Postre",
-        10000.0
-    )
-)
-
+import com.example.mvvm.viewmodels.MealListState
+/*
 val mealsIcons = listOf(
     MealsIcon(1, "Principales", "https://img.icons8.com/glyph-neue/344/rice-bowl.png"),
     MealsIcon(2, "Postres", "https://img.icons8.com/glyph-neue/344/ice-cream-bowl.png"),
@@ -106,12 +43,11 @@ val mealsIcons2 = listOf(
 )
 
 @Composable
-fun MainMenuScreen(navController: NavController) {
-    MainMenuContent(navController)
-}
-
-@Composable
-fun MainMenuContent(navController: NavController) {
+fun MainMenuScreen(
+    navController: NavController,
+    data: () -> Unit,
+    state: MealListState
+) {
     Column(
         modifier = Modifier.background(Color(0xFFFCFCFC))
     ){
@@ -159,14 +95,12 @@ fun MainMenuContent(navController: NavController) {
         SearchBar()
         MealsTypeFilter(mealsIcons)
         MealsTypeFilter(mealsIcons2)
-        MealsList(false, 380) {
-            ProductContent(
-                { ProductImage() },
-                { ProductTitle() },
-                { ProductCost() },
-                { ProductController() }
-            )
-        }
+        MealsList(
+            false,
+            380,
+            state,
+            data,
+        )
         OrderButton("Agregar al carrito")
     }
 }
@@ -219,9 +153,9 @@ fun MealsTypeFilter(listIcons: List<MealsIcon>) {
 }
 
 @Composable
-fun ProductImage() {
+fun ProductImage(img: String) {
     Image(
-        painter = rememberAsyncImagePainter(model = "https://www.freshnlean.com/wp-content/uploads/2021/03/Meal-Plan-plate-keto.png"),
+        painter = rememberAsyncImagePainter(model = img),
         contentDescription = "",
         modifier = Modifier
             .padding(10.dp)
@@ -230,9 +164,9 @@ fun ProductImage() {
 }
 
 @Composable
-fun ProductTitle() {
+fun ProductTitle(name: String) {
     Text(
-        text = "Teriyaki chicken",
+        text = name,
         fontSize = 18.sp,
         modifier = Modifier.padding(top = 20.dp, bottom = 10.dp),
         color = Color(0xFF656565)
@@ -240,9 +174,9 @@ fun ProductTitle() {
 }
 
 @Composable
-fun ProductCost() {
+fun ProductCost(cost: Double) {
     Text(
-        text ="₡ 3000",
+        text ="₡$cost",
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp
     )
@@ -250,7 +184,8 @@ fun ProductCost() {
 
 @Composable
 fun ProductController() {
-    var cost by remember { mutableStateOf(0) }
+    var cost by rememberSaveable { mutableStateOf(0) }
+
     Card(
         modifier = Modifier
             .padding(start = 80.dp)
@@ -300,30 +235,6 @@ fun ProductController() {
 fun ProductContent(
     img: @Composable () -> Unit,
     title: @Composable () -> Unit,
-    cost: @Composable () -> Unit,
-    controller: @Composable () -> Unit
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        img()
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(10.dp),
-            verticalArrangement = Arrangement.Center,
-        ) {
-            title()
-            cost()
-            controller()
-        }
-    }
-}
-
-@Composable
-fun ProductContent(
-    img: @Composable () -> Unit,
-    title: @Composable () -> Unit,
     cost: @Composable () -> Unit
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -344,7 +255,8 @@ fun ProductContent(
 fun MealsList(
     isFullSize: Boolean,
     size: Int = 0,
-    content: @Composable () -> Unit
+    state: MealListState,
+    data: () -> Unit,
 ) {
     LazyColumn(
         modifier =
@@ -352,16 +264,34 @@ fun MealsList(
             Modifier
                 .fillMaxSize()
                 .background(Color(0xFFFCFCFC))
-
         else Modifier
             .height(size.dp)
             .background(Color(0xFFFCFCFC)),
-    ) {
-        items(mealsList) { meal ->
-            ListItem(meal) { content() }
+        ) {
+            items(items = state.meals) { meal ->
+                ListItem(meal) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        ProductImage(meal.img)
+
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .padding(10.dp),
+                            verticalArrangement = Arrangement.Center,
+                        ) {
+                            ProductTitle(meal.name)
+                            ProductCost(meal.cost)
+                            ProductController()
+                        }
+                    }
+            }
+          //  }
         }
     }
 }
+
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Composable
@@ -369,7 +299,7 @@ fun MealsListRemove(
     isFullSize: Boolean,
     size: Int = 0,
     content: @Composable () -> Unit
-) {
+) {/*
     LazyColumn(
         modifier =
             if (isFullSize)
@@ -431,14 +361,14 @@ fun MealsListRemove(
             )
 
         }
-    }
+    }*/
 }
 
 
 @Composable
 fun ListItem (
     meal: Meal,
-    content: @Composable() () -> Unit
+    content: @Composable () -> Unit
 ) {
     var cost by remember { mutableStateOf(0) }
 
@@ -476,46 +406,4 @@ fun OrderButton(text: String) {
         )
     }
 }
-
-@Composable
-fun SearchBar() {
-    var search by remember { mutableStateOf("") }
-
-    OutlinedTextField(
-        value = search,
-        onValueChange = { search = it},
-        modifier = Modifier
-            .padding(
-                start = 15.dp,
-                end = 15.dp,
-                top = 10.dp,
-                bottom = 5.dp
-            )
-            .height(55.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            unfocusedBorderColor = Color(0xFFE9E9E9),
-            focusedBorderColor = Color(0xFFE9E9E9)
-        ),
-        leadingIcon = {
-            IconButton(
-                onClick = {},
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(25.dp),
-                    tint = Color(0xFFA8A8A8)
-                )
-            }
-        },
-        placeholder = ({
-            Text(
-                text = "Buscar",
-                color = Color(0xFFA8A8A8)
-            )
-        })
-    )
-}
+*/

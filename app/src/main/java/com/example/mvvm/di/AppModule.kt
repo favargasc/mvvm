@@ -5,7 +5,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
+
+
+annotation class UserList
+annotation class MealList
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -13,11 +18,5 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFirestoreInstance() = FirebaseFirestore.getInstance()
-
-    //tocarlo
-    @Provides
-    @Singleton
-    fun provideUserList(
-        fireStore: FirebaseFirestore
-    ) = fireStore.collection("users")
 }
+

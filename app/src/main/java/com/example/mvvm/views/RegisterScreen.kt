@@ -266,7 +266,8 @@ fun FormButton(
 ) {
     Button(
         onClick = {
-            if (userViewModel.isValidUser(studentEmail, password)) navController.navigate(route)
+            navController.navigate(route)
+            //userViewModel.isValidUser(studentEmail, password)
         },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF39439D)
