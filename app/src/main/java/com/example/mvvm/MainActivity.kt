@@ -4,27 +4,17 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
-import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mvvm.navigation.AppNavigation
 import com.example.mvvm.ui.theme.MvvmTheme
-import com.example.mvvm.viewmodels.MealViewModel
-import com.example.mvvm.viewmodels.OrderViewModel
-import com.example.mvvm.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val userViewModel: UserViewModel by viewModels()
-    private val mealViewModel: MealViewModel by viewModels()
-    private val orderViewModel: OrderViewModel by viewModels()
 
     @ExperimentalUnitApi
     @ExperimentalMaterialApi
@@ -37,10 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    AppNavigation(
-                        this,
-                        userViewModel,
-                    )
+                    AppNavigation(this)
                 }
             }
         }

@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun TopBar(navigateToMainMenu: () -> Unit) {
-    TopAppBar (
+fun TopBar(navController: NavController, userId: String) {
+    TopAppBar(
         modifier = Modifier
             .padding(horizontal = 10.dp)
             .height(80.dp),
@@ -38,7 +38,7 @@ fun TopBar(navigateToMainMenu: () -> Unit) {
         },
         backgroundColor = Color.White,
         navigationIcon = {
-            IconButton(onClick = navigateToMainMenu) {
+            IconButton(onClick = { navController.navigate("main_menu/$userId") }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "",

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mvvm.navigation.AppScreens
+import com.example.mvvm.viewmodels.UserViewModel
 import com.example.mvvm.views.loginScreen.components.*
 
 enum class Theme { DARK, LIGHT }
@@ -19,7 +20,13 @@ enum class Theme { DARK, LIGHT }
 enum class Route { CLIENT, ADMIN }
 
 @Composable
-fun LoginScreen(navController: NavController, ) {
+fun LoginScreen(
+    navigateToRegister: () -> Unit,
+    navigateToLogin: () -> Unit,
+    navController: NavController,
+    navigateToAdminMainMenu: () -> Unit,
+    userViewModel: UserViewModel
+) {
     val (collegeEmail, setCollegeEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
 
@@ -41,26 +48,27 @@ fun LoginScreen(navController: NavController, ) {
         FormBtn(
             "Iniciar sesión como estudiante",
             navController,
+            navigateToLogin,
+            userViewModel,
             collegeEmail,
             password,
             Theme.DARK.ordinal,
-            Route.CLIENT.ordinal
         )
 
         FormBtn(
             "Iniciar sesión como administrador",
             navController,
+            navigateToLogin,
+            userViewModel,
             collegeEmail,
             password,
             Theme.LIGHT.ordinal,
-            Route.ADMIN.ordinal
         )
 
         RedirectLink(
             "¿Aún no tienes una cuenta?",
             " Registrarte",
-            navController,
-            AppScreens.RegisterScreen.route
+            navigateToRegister,
         )
     }
 }

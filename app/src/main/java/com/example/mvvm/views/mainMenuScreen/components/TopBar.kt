@@ -23,8 +23,8 @@ import androidx.navigation.NavController
 fun TopBar(
     title: String,
     navigateToLogin: () -> Unit,
-    navigateToShoppingCart: () -> Unit
-
+    navController: NavController,
+    userId: String
 ) {
     TopAppBar(
         backgroundColor = Color(0xFFFCFCFC),
@@ -52,7 +52,7 @@ fun TopBar(
 
         },
         actions = {
-            IconButton(onClick = navigateToShoppingCart) {
+            IconButton(onClick = { navController.navigate("shopping_cart/$userId") }) {
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
                     contentDescription = "",

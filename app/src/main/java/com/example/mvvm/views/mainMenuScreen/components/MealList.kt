@@ -24,7 +24,7 @@ fun MealList(
     refreshData: () -> Unit,
     type: Int,
     time: Int,
-    orders:  SnapshotStateList<CartMeal>,
+    orders: SnapshotStateList<CartMeal>
 ) {
     SwipeRefresh(state = rememberSwipeRefreshState(isRefreshing), onRefresh = refreshData) {
         LazyColumn(
@@ -56,16 +56,16 @@ fun MealList(
                 }
                 val cartMeal: CartMeal? = orders.find { it.meal?.ID == meal.ID }
 
-                val id: String = UUID.randomUUID().toString().replace("-", "").removeRange(18, 32)
+                val id: String = UUID.randomUUID().toString().replace("-", "").removeRange(8, 32)
 
                 if (cartMeal != null) {
                     if (cartMeal.count < count && count != 0) {
                         orders.remove(cartMeal)
-                        orders.add(CartMeal(id, "117890261", meal, count))
+                        orders.add(CartMeal(id, meal, count))
                     }
                 } else {
                     if (count != 0) {
-                        orders.add(CartMeal(id, "117890261", meal, count))
+                        orders.add(CartMeal(id, meal, count))
                     }
                 }
             }

@@ -34,7 +34,6 @@ fun countTotal(cartMeals: List<CartMeal>): Double {
 
 @Composable
 fun Payment(
-    state: CartMealListState,
     mainCost: Double,
     totalCost: Double
 ) {

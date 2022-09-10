@@ -20,7 +20,6 @@ data class Meal (
 
 data class CartMeal (
     val id: String = "",
-    val userId: String = "",
     val meal: Meal? = null,
     val count: Int = 0
 )

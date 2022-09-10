@@ -52,7 +52,6 @@ fun countTotal(cartMeals: SnapshotStateList<CartMeal>): Double {
 @Composable
 fun OrderList(
     orders: SnapshotStateList<CartMeal>,
-    isRefreshing: Boolean,
     setMainCost: (Double) -> Unit,
     setTotalCost: (Double) -> Unit
 ) {

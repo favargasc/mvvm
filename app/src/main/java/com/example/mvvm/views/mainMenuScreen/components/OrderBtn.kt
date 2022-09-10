@@ -8,22 +8,19 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mvvm.models.CartMeal
-import com.example.mvvm.viewmodels.OrderViewModel
+import com.example.mvvm.viewmodels.InvoiceViewModel
 
 @Composable
 fun OrderBtn(
     text: String,
     orders: SnapshotStateList<CartMeal>,
     ordersTemp: SnapshotStateList<CartMeal>,
-    orderViewModel: OrderViewModel
 ) {
     Button(
         modifier = Modifier

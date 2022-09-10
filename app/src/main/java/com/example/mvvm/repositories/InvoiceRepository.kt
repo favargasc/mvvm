@@ -1,6 +1,7 @@
 package com.example.mvvm.repositories
 
 import com.example.mvvm.models.CartMeal
+import com.example.mvvm.models.Invoice
 import com.example.mvvm.models.Meal
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
@@ -10,20 +11,20 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class OrderRepository
+class InvoiceRepository
 @Inject constructor(
     private val db: FirebaseFirestore
 ) {
-    fun addNewOrder(cartMeal: CartMeal) {
+    fun addNewInvoice(invoice: Invoice) {
         try {
-            val userList = db.collection("orders")
+            val userList = db.collection("invoices")
 
-            userList.document(cartMeal.id).set(cartMeal)
+            userList.document(invoice.id).set(invoice)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-    fun getOrders() : Flow<Result<List<CartMeal>>> = flow {
+    /*fun getOrders() : Flow<Result<List<CartMeal>>> = flow {
         try {
             emit(Result.Loading())
 
@@ -38,5 +39,5 @@ class OrderRepository
             emit(Result.Error(message = e.localizedMessage ?: "Error Desconocido"))
         }
     }
-
+*/
 }

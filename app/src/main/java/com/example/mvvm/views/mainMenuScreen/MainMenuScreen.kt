@@ -10,9 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.mvvm.models.CartMeal
 import com.example.mvvm.models.MealsIcon
-import com.example.mvvm.navigation.AppScreens
 import com.example.mvvm.viewmodels.MealListState
-import com.example.mvvm.viewmodels.OrderViewModel
+import com.example.mvvm.viewmodels.InvoiceViewModel
 import com.example.mvvm.views.mainMenuScreen.components.*
 
 val mealsIcons = listOf(
@@ -36,9 +35,9 @@ fun MainMenuScreen(
     refreshData: () -> Unit,
     state: MealListState,
     navigateToLogin: () -> Unit,
-    navigateToShoppingCart: () -> Unit,
-    orderViewModel: OrderViewModel,
-    orders: SnapshotStateList<CartMeal>
+    navController: NavController,
+    orders: SnapshotStateList<CartMeal>,
+    userId: String
 ) {
     val (type, setType) = remember { mutableStateOf(-1) }
     val (time, setTime) = remember { mutableStateOf(-1) }
@@ -50,7 +49,8 @@ fun MainMenuScreen(
         TopBar(
             "Menú",
             navigateToLogin,
-            navigateToShoppingCart
+            navController,
+            userId = userId
         )
         SearchBar()
         OptionSelector(mealsIcons, type, setType)
@@ -63,6 +63,6 @@ fun MainMenuScreen(
             time,
             ordersTemp
         )
-        OrderBtn("Agregar al carrito", orders, ordersTemp, orderViewModel)
+        OrderBtn("Agregar al carrito", orders, ordersTemp)
     }
 }

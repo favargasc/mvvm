@@ -4,35 +4,30 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.mvvm.models.CartMeal
-import com.example.mvvm.models.User
-import com.example.mvvm.repositories.OrderRepository
-import com.example.mvvm.repositories.Result
-import com.example.mvvm.repositories.UserRepository
+import com.example.mvvm.models.Invoice
+import com.example.mvvm.repositories.InvoiceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class OrderViewModel
+class InvoiceViewModel
 @Inject constructor(
-    private val orderRepository: OrderRepository
+    private val invoiceRepository: InvoiceRepository
 ) : ViewModel() {
-    private val _state: MutableState<CartMealListState> = mutableStateOf(CartMealListState()) //private state
+    private val _state: MutableState<CartMealListState> =
+        mutableStateOf(CartMealListState()) //private state
     val state: State<CartMealListState> = _state
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
 
-    fun addNewUser(cartMeal: CartMeal) {
-        orderRepository.addNewOrder(cartMeal)
+    fun addNewInvoice(invoice: Invoice) {
+        invoiceRepository.addNewInvoice(invoice)
     }
 
-    init {
+    /*init {
         getCartMealList()
     }
 
@@ -50,5 +45,5 @@ class OrderViewModel
                 }
             }
         }.launchIn(viewModelScope)
-    }
+    }*/
 }

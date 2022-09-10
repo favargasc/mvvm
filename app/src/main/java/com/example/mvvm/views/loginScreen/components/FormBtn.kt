@@ -9,6 +9,9 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -16,33 +19,46 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mvvm.navigation.AppScreens
+import com.example.mvvm.viewmodels.UserViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun FormBtn(
     text: String,
     navController: NavController,
+    navigateToLogin: () -> Unit,
+    userViewModel: UserViewModel,
     collegeEmail: String,
     password: String,
     style: Int,
-    route: Int
-    ) {
-        Button(
-            onClick = {
-                val address = if (route == 0 ) AppScreens.MainMenuScreen.route else ""
+) {
+    val coroutineScope = rememberCoroutineScope()
 
-                navController.navigate(address)
-            },
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = (
+    Button(
+        onClick = {
+            coroutineScope.launch {
+                val response = userViewModel.authCheck(collegeEmail, password)
+                if (!response) {
+                    val userId = userViewModel.getUserId(collegeEmail, password)
+
+                    navController.navigate("main_menu/$userId")
+
+                } else {
+                    navigateToLogin()
+                }
+            }
+        },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = (
                     if (style == 0) Color(0xFF39439D) else Color.White
-                )
-            ),
-            shape = RoundedCornerShape(10.dp),
-            border = BorderStroke(1.dp, Color(0xFF39439D)),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(40.dp, 10.dp)
-                .height(55.dp)
+                    )
+        ),
+        shape = RoundedCornerShape(10.dp),
+        border = BorderStroke(1.dp, Color(0xFF39439D)),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(40.dp, 10.dp)
+            .height(55.dp)
         ) {
             Text(
                 text = text,

@@ -15,13 +15,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mvvm.models.CartMeal
 import com.example.mvvm.viewmodels.MealViewModel
-import com.example.mvvm.viewmodels.OrderViewModel
+import com.example.mvvm.viewmodels.InvoiceViewModel
 import com.example.mvvm.viewmodels.UserViewModel
 import com.example.mvvm.views.*
 import com.example.mvvm.views.loginScreen.LoginScreen
 import com.example.mvvm.views.mainMenuScreen.MainMenuScreen
 import com.example.mvvm.views.shoppingCartScreen.ShoppingCartScreen
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
@@ -29,49 +28,60 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 @Composable
 fun AppNavigation(
     context: Context,
-    userViewModel: UserViewModel,
 ) {
     val mealViewModel: MealViewModel = hiltViewModel()
-    val orderViewModel: OrderViewModel = hiltViewModel()
-    val orders = remember { mutableStateListOf<CartMeal>()}
+    val invoiceViewModel: InvoiceViewModel = hiltViewModel()
+    val userViewModel: UserViewModel = hiltViewModel()
+    val orders = remember { mutableStateListOf<CartMeal>() }
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = AppScreens.MainMenuScreen.route) {
+    NavHost(navController = navController, startDestination = AppScreens.LoginScreen.route) {
         composable(route = AppScreens.LoginScreen.route) {
-            LoginScreen(navController)
+            LoginScreen(
+                navigateToRegister = { navController.navigate(AppScreens.RegisterScreen.route) },
+                navigateToLogin = { navController.navigate(AppScreens.LoginScreen.route) },
+                navController = navController,
+                navigateToAdminMainMenu = { navController.navigate(AppScreens.ShoppingCartScreen.route) },
+                userViewModel = userViewModel
+            )
         }
         composable(route = AppScreens.MealsManagerScreen.route) {
             MealsManagerScreen()
         }
-        composable(route = AppScreens.MainMenuScreen.route) {
+        composable(
+            route = AppScreens.MainMenuScreen.route
+        ) { backStackEntry ->
+
             val state = mealViewModel.state.value
             val isRefreshing = mealViewModel.isRefreshing.collectAsState()
 
-            MainMenuScreen(
-                state = state,
-                isRefreshing = isRefreshing.value,
-                refreshData = mealViewModel::getMealList,
-                navigateToLogin = { navController.navigate(AppScreens.LoginScreen.route) },
-                navigateToShoppingCart = { navController.navigate(AppScreens.ShoppingCartScreen.route) },
-                orderViewModel = orderViewModel,
-                orders = orders
-            )
+            backStackEntry.arguments?.getString("userId")?.let {
+                MainMenuScreen(
+                    state = state,
+                    isRefreshing = isRefreshing.value,
+                    refreshData = mealViewModel::getMealList,
+                    navigateToLogin = { navController.navigate(AppScreens.LoginScreen.route) },
+                    navController = navController,
+                    orders = orders,
+                    userId = it
+                )
+            }
         }
         composable(route = AppScreens.RegisterScreen.route) {
             RegisterScreen(context, navController, userViewModel)
         }
 
-        composable(route = AppScreens.ShoppingCartScreen.route) {
-            val state = orderViewModel.state.value
-            val isRefreshing = orderViewModel.isRefreshing.collectAsState()
+        composable(route = AppScreens.ShoppingCartScreen.route) { backStackEntry ->
 
-            ShoppingCartScreen(
-                state = state,
-                isRefreshing = isRefreshing.value,
-                refreshData = orderViewModel::getCartMealList,
-                navigateToMainMenu = { navController.navigate(AppScreens.MainMenuScreen.route) },
-                orders = orders
-            )
+            backStackEntry.arguments?.getString("userId")?.let {
+                ShoppingCartScreen(
+                    navController,
+                    invoiceViewModel,
+                    userViewModel,
+                    orders,
+                    it
+                )
+            }
         }
     }
 }

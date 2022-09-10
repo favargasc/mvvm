@@ -1,12 +1,10 @@
 package com.example.mvvm.repositories
 
-import android.content.ContentValues.TAG
-import android.util.Log
-import com.example.mvvm.di.UserList
+import com.example.mvvm.models.Meal
 import com.example.mvvm.models.User
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,9 +12,8 @@ import javax.inject.Singleton
 @Singleton
 class UserRepository
 @Inject constructor(
-    private val db: FirebaseFirestore
+    val db: FirebaseFirestore
 ) {
-    //funcional
     fun addNewUser(user: User) {
         try {
             val userList = db.collection("users")
@@ -26,18 +23,22 @@ class UserRepository
             e.printStackTrace()
         }
     }
-/*
-    suspend fun getUsers(): MutableList<User> {
-        val list = mutableListOf<User>()
 
-        userList
-            .get()
-            .addOnSuccessListener {users ->
-                for (user in users) {
-                    list.add(user.toObject(User::class.java))
-                }
 
+    fun getMeals(): Flow<Result<List<Meal>>> = flow {
+        try {
+            emit(Result.Loading())
+
+            val collection = db.collection("meals")
+
+            val meals = collection.get().await().map { document ->
+                document.toObject(Meal::class.java)
             }
-        return list
-    }*/
+            emit(Result.Success(data = meals))
+
+        } catch (e: Exception) {
+            emit(Result.Error(message = e.localizedMessage ?: "Error Desconocido"))
+        }
+    }
+
 }

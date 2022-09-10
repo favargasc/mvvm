@@ -18,8 +18,7 @@ import androidx.navigation.NavController
 fun RedirectLink(
     text: String,
     link: String,
-    navController: NavController,
-    route: String
+    navigateToRegister: () -> Unit,
 ) {
     Row(
         modifier = Modifier.padding(
@@ -40,7 +39,7 @@ fun RedirectLink(
                 fontWeight = FontWeight.Bold,
                 fontSize = 15.sp,
             ),
-            onClick = { navController.navigate(route)}
+            onClick = { navigateToRegister() }
         )
     }
 }
