@@ -1,6 +1,8 @@
 package com.example.mvvm.views.shoppingCartScreen
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
@@ -10,11 +12,13 @@ import androidx.navigation.NavController
 import com.example.mvvm.models.CartMeal
 import com.example.mvvm.repositories.InvoiceRepository
 import com.example.mvvm.viewmodels.CartMealListState
+import com.example.mvvm.viewmodels.Email
 import com.example.mvvm.viewmodels.InvoiceViewModel
 import com.example.mvvm.viewmodels.UserViewModel
 import com.example.mvvm.views.shoppingCartScreen.components.*
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnrememberedMutableState")
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
@@ -24,7 +28,8 @@ fun ShoppingCartScreen(
     invoiceViewModel: InvoiceViewModel,
     userViewModel: UserViewModel,
     orders: SnapshotStateList<CartMeal>,
-    userId: String
+    userId: String,
+    email: Email
 ) {
     val (mainCost, setMainCost) = remember { mutableStateOf(0.0) }
     val (totalCost, setTotalCost) = remember { mutableStateOf(0.0) }
@@ -33,6 +38,6 @@ fun ShoppingCartScreen(
         TopBar(navController, userId)
         OrderList(orders, setMainCost, setTotalCost)
         Payment(mainCost, totalCost)
-        PayBtn("Comprar", orders, invoiceViewModel, userViewModel, userId)
+        PayBtn("Comprar", orders, invoiceViewModel, userViewModel, userId, email, totalCost)
     }
 }

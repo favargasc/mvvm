@@ -1,5 +1,7 @@
 package com.example.mvvm.views.shoppingCartScreen.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,6 +20,7 @@ import com.example.mvvm.models.CartMeal
 import com.example.mvvm.models.Invoice
 import com.example.mvvm.models.User
 import com.example.mvvm.repositories.InvoiceRepository
+import com.example.mvvm.viewmodels.Email
 import com.example.mvvm.viewmodels.InvoiceViewModel
 import com.example.mvvm.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
@@ -26,13 +29,16 @@ import java.time.LocalDateTime
 import java.util.*
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PayBtn(
     text: String,
     orders: SnapshotStateList<CartMeal>,
     invoiceViewModel: InvoiceViewModel,
     userViewModel: UserViewModel,
-    userId: String
+    userId: String,
+    email: Email,
+    totalCost:Double
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -59,7 +65,13 @@ fun PayBtn(
                             orders
                         )
                     )
+                    //create the pdf before clean the order
+                    email.createPdf(orders, totalCost)
                     orders.clear()
+                    //get the user, and then, get the email to send the bill and QR code
+                    val student= userViewModel.getUser(userId)
+                    email.createQR(student)
+                    email.sendEmail(student.studentEmail)
                 }
             }
         },

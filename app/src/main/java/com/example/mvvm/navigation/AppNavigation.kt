@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mvvm.models.CartMeal
+import com.example.mvvm.viewmodels.Email
 import com.example.mvvm.viewmodels.MealViewModel
 import com.example.mvvm.viewmodels.InvoiceViewModel
 import com.example.mvvm.viewmodels.UserViewModel
@@ -32,6 +33,7 @@ fun AppNavigation(
     val mealViewModel: MealViewModel = hiltViewModel()
     val invoiceViewModel: InvoiceViewModel = hiltViewModel()
     val userViewModel: UserViewModel = hiltViewModel()
+    val email: Email = hiltViewModel()
     val orders = remember { mutableStateListOf<CartMeal>() }
 
     val navController = rememberNavController()
@@ -68,7 +70,7 @@ fun AppNavigation(
             }
         }
         composable(route = AppScreens.RegisterScreen.route) {
-            RegisterScreen(context, navController, userViewModel)
+            RegisterScreen(context, navController, userViewModel,email)
         }
 
         composable(route = AppScreens.ShoppingCartScreen.route) { backStackEntry ->
@@ -79,7 +81,8 @@ fun AppNavigation(
                     invoiceViewModel,
                     userViewModel,
                     orders,
-                    it
+                    it,
+                    email
                 )
             }
         }

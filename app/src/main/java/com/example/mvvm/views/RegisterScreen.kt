@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.*
 import androidx.navigation.NavController
 import com.example.mvvm.models.User
 import com.example.mvvm.navigation.AppScreens
+import com.example.mvvm.viewmodels.Email
 import com.example.mvvm.viewmodels.UserViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate
@@ -30,7 +31,7 @@ import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun RegisterScreen(context: Context, navController: NavController, userViewModel: UserViewModel) {
+fun RegisterScreen(context: Context, navController: NavController, userViewModel: UserViewModel, email:Email) {
     val (dni, setDni) = remember { mutableStateOf("") }
     val (dsi, setDsi) = remember { mutableStateOf("") }
     val (fullName, setFullName) = remember { mutableStateOf("") }
@@ -84,7 +85,9 @@ fun RegisterScreen(context: Context, navController: NavController, userViewModel
             navController,
             AppScreens.LoginScreen.route,
             userViewModel,
-            User(dni, dsi, fullName, lastName, maidenName, age, date, studentEmail, password)
+            User(dni, dsi, fullName, lastName, maidenName, age, date, studentEmail, password),
+            email
+
         )
     }
 }
@@ -226,11 +229,12 @@ fun setAge(day: Int, month: Int, year: Int): Int {
 }
 
 @Composable
-fun FormButton(text: String, navController: NavController, route: String, userViewModel: UserViewModel, user: User) {
+fun FormButton(text: String, navController: NavController, route: String, userViewModel: UserViewModel, user: User, email: Email) {
     Button(
         onClick = {
             userViewModel.addNewUser(user)
             navController.navigate(route = route)
+            email.welcomeEmail(user)
         },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF39439D)
