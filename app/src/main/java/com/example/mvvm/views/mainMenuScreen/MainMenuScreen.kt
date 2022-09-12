@@ -1,6 +1,8 @@
 package com.example.mvvm.views.mainMenuScreen
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.*
@@ -52,7 +54,8 @@ fun MainMenuScreen(
             navController,
             userId = userId
         )
-        SearchBar()
+        val search=SearchBar()
+        Log.d(TAG, "Input: $search")
         OptionSelector(mealsIcons, type, setType)
         OptionSelector(mealsIcons2, time, setTime)
         MealList(
@@ -61,7 +64,8 @@ fun MainMenuScreen(
             refreshData,
             type,
             time,
-            ordersTemp
+            ordersTemp,
+            search.lowercase()
         )
         OrderBtn("Agregar al carrito", orders, ordersTemp)
     }

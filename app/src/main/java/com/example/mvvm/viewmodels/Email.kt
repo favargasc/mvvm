@@ -158,11 +158,11 @@ class Email
     //the qr is converted into a image
     //the image is added into a email
     @RequiresApi(Build.VERSION_CODES.O)
-    fun createQR(student: User){
+    fun createQR(student: User, id: String){
         val writer = QRCodeWriter()
         val dateTime = LocalDateTime.now()
             .format(DateTimeFormatter.ofPattern("MMM dd yyyy"))
-        val text="Orden de Compra:  ?\n" + "Carnet: "+student.dsi+"\n"+ "Fecha: "+ dateTime.toString()
+        val text="Orden de Compra: " + id + "\n" + "Carnet: "+student.dsi+"\n"+ "Fecha: "+ dateTime.toString()
 
         // bits for create the QR code
         val bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, 512, 512)

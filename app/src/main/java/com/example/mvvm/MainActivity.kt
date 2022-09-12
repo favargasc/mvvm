@@ -1,7 +1,9 @@
 package com.example.mvvm
 
+import android.content.ContentValues.TAG
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -15,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     @ExperimentalUnitApi
     @ExperimentalMaterialApi
     @RequiresApi(Build.VERSION_CODES.O)

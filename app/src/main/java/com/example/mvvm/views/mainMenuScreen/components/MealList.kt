@@ -24,7 +24,8 @@ fun MealList(
     refreshData: () -> Unit,
     type: Int,
     time: Int,
-    orders: SnapshotStateList<CartMeal>
+    orders: SnapshotStateList<CartMeal>,
+    search: String
 ) {
     SwipeRefresh(state = rememberSwipeRefreshState(isRefreshing), onRefresh = refreshData) {
         LazyColumn(
@@ -38,18 +39,18 @@ fun MealList(
 
                 val (count, setCount) = rememberSaveable { mutableStateOf(0) }
 
-                if (time == -1 && type == -1) {
+                if (time == -1 && type == -1 && meal.name.lowercase().contains(search)) {
                     ProductDetail(meal, count, setCount)
                 }
-                if (meal.type == type && meal.time == time) {
+                if (meal.type == type && meal.time == time && meal.name.lowercase().contains(search)) {
                     ProductDetail(meal, count, setCount)
                 }
-                if (time == -1) {
-                    if (meal.type == type) {
+                if (time == -1 && meal.name.lowercase().contains(search)) {
+                    if (meal.type == type && meal.name.lowercase().contains(search)) {
                         ProductDetail(meal, count, setCount)
                     }
                 }
-                if (type == -1) {
+                if (type == -1 && meal.name.lowercase().contains(search)) {
                     if (meal.time == time) {
                         ProductDetail(meal, count, setCount)
                     }

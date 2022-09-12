@@ -67,10 +67,11 @@ fun PayBtn(
                     )
                     //create the pdf before clean the order
                     email.createPdf(orders, totalCost)
-                    orders.clear()
                     //get the user, and then, get the email to send the bill and QR code
                     val student= userViewModel.getUser(userId)
-                    email.createQR(student)
+                    email.createQR(student, id)
+                    orders.clear()
+
                     email.sendEmail(student.studentEmail)
                 }
             }
