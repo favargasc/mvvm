@@ -212,8 +212,6 @@ class Email
                             + "Los datos suministrados son: \n" + "Nombre: " + user.fullName + " " + user.maidenName + " " + user.lastName + "\n" +
                             "Número de carné: " + user.dsi + "\n" + "Número de cédula: " + user.dni + "\n" + "Edad: " + user.age
                 )
-
-
                 //thread for send the message
                 val thread = Thread {
                     try {

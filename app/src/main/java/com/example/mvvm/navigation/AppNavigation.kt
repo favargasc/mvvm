@@ -100,7 +100,7 @@ fun AppNavigation(
             }
         }
         composable(route = AppScreens.RegisterScreen.route) {
-            RegisterScreen(context, navController, userViewModel)
+            RegisterScreen(context, navController, userViewModel, email)
         }
 
         composable(route = AppScreens.ShoppingCartScreen.route) { backStackEntry ->

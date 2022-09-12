@@ -52,7 +52,7 @@ fun MainMenuScreen(
             navController,
             userId = userId
         )
-        SearchBar()
+        val search=SearchBar()
         OptionSelector(mealsIcons, type, setType)
         OptionSelector(mealsIcons2, time, setTime)
         MealList(
@@ -61,7 +61,8 @@ fun MainMenuScreen(
             refreshData,
             type,
             time,
-            ordersTemp
+            ordersTemp,
+            search.lowercase()
         )
         OrderBtn("Agregar al carrito", orders, ordersTemp)
     }

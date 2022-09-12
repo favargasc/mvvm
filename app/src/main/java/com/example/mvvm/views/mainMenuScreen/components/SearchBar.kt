@@ -1,5 +1,7 @@
 package com.example.mvvm.views.mainMenuScreen.components
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,12 +17,12 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun SearchBar() {
+fun SearchBar():String {
     var search by remember { mutableStateOf("") }
 
     OutlinedTextField(
         value = search,
-        onValueChange = { search = it},
+        onValueChange = { search = it },
         modifier = Modifier
             .padding(
                 start = 15.dp,
@@ -55,4 +57,5 @@ fun SearchBar() {
             )
         })
     )
+    return search
 }
