@@ -26,26 +26,6 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import java.util.*
 
-fun countMainMeals(cartMeals: SnapshotStateList<CartMeal>): Double {
-    var result = 0.0
-
-    for (meal in cartMeals) {
-        if (meal.meal?.type == 0) {
-            result += meal.meal.cost * meal.count
-        }
-    }
-    return result
-}
-
-fun countTotal(cartMeals: SnapshotStateList<CartMeal>): Double {
-    var result = 0.0
-
-    for (meal in cartMeals) {
-        result += meal.meal?.cost!! * meal.count
-    }
-    return result
-}
-
 @SuppressLint("UnrememberedMutableState")
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
@@ -55,15 +35,16 @@ fun OrderList(
     setMainCost: (Double) -> Unit,
     setTotalCost: (Double) -> Unit
 ) {
-    setMainCost(countMainMeals(orders))
-    setTotalCost(countTotal(orders))
+    setMainCost(orders.asSequence().filter { it.meal?.type == 0 }
+        .sumOf { it.meal?.cost?.times(it.count)!! })
+    setTotalCost(orders.sumOf { it.meal?.cost?.times(it.count)!! })
 
     LazyColumn(
         modifier = Modifier
             .height(450.dp)
             .background(Color(0xFFF9F9F9)),
     ) {
-        items(items = orders, key = { it.id } ) { meal ->
+        items(items = orders, key = { it.id }) { meal ->
             val dismissState = rememberDismissState()
 
             if (dismissState.isDismissed(DismissDirection.EndToStart)) {

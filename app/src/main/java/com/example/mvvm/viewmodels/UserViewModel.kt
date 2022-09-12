@@ -22,8 +22,16 @@ class UserViewModel
 @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
+    private val _state: MutableState<UserListState> =
+        mutableStateOf(UserListState()) //private state
+    val state: State<UserListState> = _state
+
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
+
+    init {
+        getUserList()
+    }
 
     fun addNewUser(user: User) {
         userRepository.addNewUser(user)
@@ -57,4 +65,27 @@ class UserViewModel
         return users[0]
     }
 
+    fun getUserList() {
+        userRepository.getUsers().onEach { result ->
+            when (result) {
+                is Result.Error -> {
+                    _state.value = UserListState(error = result.message ?: "Error Inesperado")
+                }
+                is Result.Loading -> {
+                    _state.value = UserListState(isLoading = true)
+                }
+                is Result.Success -> {
+                    _state.value = UserListState(meals = result.data ?: emptyList())
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun removeUser(user: User) {
+        userRepository.removeUser(user)
+    }
+
+    fun modifyUser(user: User, userId: String) {
+        userRepository.modifyUser(user, userId)
+    }
 }

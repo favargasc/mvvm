@@ -27,25 +27,31 @@ fun FormBtn(
     text: String,
     navController: NavController,
     navigateToLogin: () -> Unit,
+    navigateToMealManager: () -> Unit,
     userViewModel: UserViewModel,
     collegeEmail: String,
     password: String,
     style: Int,
+    route: Int
 ) {
     val coroutineScope = rememberCoroutineScope()
 
     Button(
         onClick = {
-            coroutineScope.launch {
-                val response = userViewModel.authCheck(collegeEmail, password)
-                if (!response) {
-                    val userId = userViewModel.getUserId(collegeEmail, password)
+            if (route == 0) {
+                coroutineScope.launch {
+                    val response = userViewModel.authCheck(collegeEmail, password)
+                    if (!response) {
+                        val userId = userViewModel.getUserId(collegeEmail, password)
 
-                    navController.navigate("main_menu/$userId")
+                        navController.navigate("main_menu/$userId")
 
-                } else {
-                    navigateToLogin()
+                    } else {
+                        navigateToLogin()
+                    }
                 }
+            } else {
+                navigateToMealManager()
             }
         },
         colors = ButtonDefaults.buttonColors(

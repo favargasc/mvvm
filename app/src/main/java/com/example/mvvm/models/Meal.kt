@@ -9,7 +9,7 @@ enum class Time {
 }
 
 data class Meal (
-    val ID: String = "",
+    val id: String = "",
     val name: String = "",
     val availability: Boolean = true,
     val type: Int = Type.MAIN.ordinal,

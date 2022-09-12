@@ -54,7 +54,7 @@ fun MealList(
                         ProductDetail(meal, count, setCount)
                     }
                 }
-                val cartMeal: CartMeal? = orders.find { it.meal?.ID == meal.ID }
+                val cartMeal: CartMeal? = orders.find { it.meal?.id == meal.id }
 
                 val id: String = UUID.randomUUID().toString().replace("-", "").removeRange(8, 32)
 

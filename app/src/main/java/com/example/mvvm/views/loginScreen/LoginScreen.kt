@@ -24,7 +24,7 @@ fun LoginScreen(
     navigateToRegister: () -> Unit,
     navigateToLogin: () -> Unit,
     navController: NavController,
-    navigateToAdminMainMenu: () -> Unit,
+    navigateToMealsManager: () -> Unit,
     userViewModel: UserViewModel
 ) {
     val (collegeEmail, setCollegeEmail) = remember { mutableStateOf("") }
@@ -49,20 +49,24 @@ fun LoginScreen(
             "Iniciar sesión como estudiante",
             navController,
             navigateToLogin,
+            navigateToMealsManager,
             userViewModel,
             collegeEmail,
             password,
             Theme.DARK.ordinal,
+            Route.CLIENT.ordinal
         )
 
         FormBtn(
             "Iniciar sesión como administrador",
             navController,
             navigateToLogin,
+            navigateToMealsManager,
             userViewModel,
             collegeEmail,
             password,
             Theme.LIGHT.ordinal,
+            Route.ADMIN.ordinal
         )
 
         RedirectLink(

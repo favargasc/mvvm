@@ -6,12 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mvvm.models.Meal
+import com.example.mvvm.models.User
 import com.example.mvvm.repositories.MealRepository
 import com.example.mvvm.repositories.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -47,5 +45,17 @@ class MealViewModel
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun removeMeal(meal: Meal) {
+        mealRepository.removeMeal(meal)
+    }
+
+    fun addNewMeal(meal: Meal) {
+        mealRepository.addNewMeal(meal)
+    }
+
+    fun modifyMeal(meal: Meal, mealId: String) {
+        mealRepository.modifyMeal(meal, mealId)
     }
 }

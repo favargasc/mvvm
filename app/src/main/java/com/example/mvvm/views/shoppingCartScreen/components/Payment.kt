@@ -12,26 +12,6 @@ import androidx.compose.ui.unit.sp
 import com.example.mvvm.models.CartMeal
 import com.example.mvvm.viewmodels.CartMealListState
 
-fun countMainMeals(cartMeals: List<CartMeal>): Double {
-    var result = 0.0
-
-    for (meal in cartMeals) {
-        if (meal.meal?.type == 0) {
-            result += meal.meal.cost
-        }
-    }
-    return result
-}
-
-fun countTotal(cartMeals: List<CartMeal>): Double {
-    var result = 0.0
-
-    for (meal in cartMeals) {
-        result += meal.meal?.cost!!
-    }
-    return result
-}
-
 @Composable
 fun Payment(
     mainCost: Double,

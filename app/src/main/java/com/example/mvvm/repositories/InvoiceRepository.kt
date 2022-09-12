@@ -24,20 +24,21 @@ class InvoiceRepository
             e.printStackTrace()
         }
     }
-    /*fun getOrders() : Flow<Result<List<CartMeal>>> = flow {
+
+    fun getInvoices(): Flow<Result<List<Invoice>>> = flow {
         try {
             emit(Result.Loading())
 
-            val collection = db.collection("orders").whereEqualTo("userId", "117890261")
+            val collection = db.collection("invoices")
 
-            val meals = collection.get().await().map { document ->
-                document.toObject(CartMeal::class.java)
+            val invoices = collection.get().await().map { document ->
+                document.toObject(Invoice::class.java)
             }
-            emit(Result.Success(data = meals))
+
+            emit(Result.Success(data = invoices))
 
         } catch (e: Exception) {
             emit(Result.Error(message = e.localizedMessage ?: "Error Desconocido"))
         }
     }
-*/
 }

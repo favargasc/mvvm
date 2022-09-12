@@ -4,21 +4,25 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mvvm.models.Invoice
 import com.example.mvvm.repositories.InvoiceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+import com.example.mvvm.repositories.*
+import kotlinx.coroutines.flow.launchIn
 
 @HiltViewModel
 class InvoiceViewModel
 @Inject constructor(
     private val invoiceRepository: InvoiceRepository
 ) : ViewModel() {
-    private val _state: MutableState<CartMealListState> =
-        mutableStateOf(CartMealListState()) //private state
-    val state: State<CartMealListState> = _state
+    private val _state: MutableState<InvoicesListState> =
+        mutableStateOf(InvoicesListState())
+    val state: State<InvoicesListState> = _state
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
@@ -27,23 +31,23 @@ class InvoiceViewModel
         invoiceRepository.addNewInvoice(invoice)
     }
 
-    /*init {
-        getCartMealList()
+    init {
+        getInvoices()
     }
 
-    fun getCartMealList() {
-        orderRepository.getOrders().onEach { result ->
-            when(result) {
+    fun getInvoices() {
+        invoiceRepository.getInvoices().onEach { result ->
+            when (result) {
                 is Result.Error -> {
-                    _state.value = CartMealListState(error = result.message ?: "Error Inesperado")
+                    _state.value = InvoicesListState(error = result.message ?: "Error Inesperado")
                 }
                 is Result.Loading -> {
-                    _state.value = CartMealListState(isLoading = true)
+                    _state.value = InvoicesListState(isLoading = true)
                 }
                 is Result.Success -> {
-                    _state.value = CartMealListState(meals = result.data ?: emptyList())
+                    _state.value = InvoicesListState(meals = result.data ?: emptyList())
                 }
             }
         }.launchIn(viewModelScope)
-    }*/
+    }
 }

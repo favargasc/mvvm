@@ -1,6 +1,7 @@
 package com.example.mvvm.repositories
 
 import com.example.mvvm.models.Meal
+import com.example.mvvm.models.User
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -27,5 +28,31 @@ class MealRepository
         } catch (e: Exception) {
             emit(Result.Error(message = e.localizedMessage ?: "Error Desconocido"))
         }
+    }
+
+    fun removeMeal(meal: Meal) {
+        db.collection("meals").document(meal.id).delete()
+    }
+
+    fun addNewMeal(meal: Meal) {
+        db.collection("meals").document(meal.id).set(meal)
+    }
+
+    fun modifyMeal(meal: Meal, mealId: String) {
+        val mealRef = db.collection("meals").document(mealId)
+
+        if (meal.name != "") {
+            mealRef.update("name", meal.name)
+        }
+        if (meal.cost != 0.0) {
+            mealRef.update("cost", meal.cost)
+        }
+        if (meal.img != "") {
+            mealRef.update("img", meal.img)
+        }
+        mealRef.update("availability", meal.availability)
+        mealRef.update("lastName", meal.type)
+        mealRef.update("fullName", meal.time)
+
     }
 }
