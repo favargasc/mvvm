@@ -2,17 +2,15 @@ package com.example.mvvm.views.mealManagerScreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -23,8 +21,6 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.mvvm.models.Meal
 import com.example.mvvm.viewmodels.MealViewModel
-import com.example.mvvm.views.mainMenuScreen.components.ProductCounter
-import kotlinx.coroutines.launch
 
 @Composable
 fun MealManagerDetail(
@@ -45,76 +41,68 @@ fun MealManagerDetail(
         elevation = 0.dp,
         shape = RoundedCornerShape(5.dp)
     ) {
-        Row {
-
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = rememberAsyncImagePainter(model = meal.img),
                 contentDescription = "",
                 modifier = Modifier
                     .padding(10.dp)
-                    .size(110.dp),
-                contentScale = ContentScale.FillBounds
+                    .size(110.dp)
+                    .clip(RoundedCornerShape(15.dp)),
+                contentScale = ContentScale.FillBounds,
             )
-
             Column(
                 Modifier
-                    .padding(start = 5.dp, top = 10.dp, bottom = 10.dp),
-                verticalArrangement = Arrangement.Center,
+                    .padding(horizontal = 2.dp)
+                    .width(80.dp)
             ) {
                 Text(
-                    text = "#${meal.id} ",
-                    fontSize = 16.sp,
+                    text = meal.name,
+                    fontSize = 20.sp,
                     modifier = Modifier.padding(vertical = 5.dp),
-                    color = Color(0xFF656565),
-                    fontWeight = FontWeight.Bold
+                    color = Color(0xFF34495E),
+                    fontWeight = FontWeight.SemiBold
                 )
-                Row {
-                    Text(
-                        text = "${meal.name}           ",
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        color = Color(0xFF656565),
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = (
-                                when (meal.type) {
-                                    0 -> {
-                                        "Principal"
-                                    }
-                                    1 -> {
-                                        "Postre"
-                                    }
-                                    2 -> {
-                                        "Acompañamiento"
-                                    }
-                                    else -> {
-                                        "Bebida"
-                                    }
+                Text(
+                    text = (
+                            when (meal.type) {
+                                0 -> {
+                                    "Principal"
                                 }
-                                ),
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        color = Color(0xFF656565)
-                    )
-                }
-                Row {
-                    Text(
-                        text = "₡${meal.cost}        ",
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        color = Color(0xFF656565),
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = if (meal.availability) "Disponible" else "No Disponible",
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        color = Color(0xFF656565)
-                    )
-                }
+                                1 -> {
+                                    "Postre"
+                                }
+                                2 -> {
+                                    "Acompañamiento"
+                                }
+                                else -> {
+                                    "Bebida"
+                                }
+                            }
+                            ),
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(vertical = 5.dp),
+                    color = Color(0xFFB1BFC6)
+                )
             }
-
+            Column(
+                Modifier
+                    .padding(horizontal = 2.dp)
+                    .width(95.dp)) {
+                Text(
+                    text = "₡${meal.cost}        ",
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(top = 27.dp, bottom = 5.dp),
+                    color = Color(0xFF34495E),
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = if (meal.availability) "Disponible" else "Insuficiente",
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(vertical = 5.dp),
+                    color = Color(0xFFB1BFC6)
+                )
+            }
             IconButton(
                 onClick = { showMenu1 = true },
                 modifier = Modifier.padding(bottom = 90.dp)

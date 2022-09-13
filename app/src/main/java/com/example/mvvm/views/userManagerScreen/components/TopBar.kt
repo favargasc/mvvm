@@ -35,16 +35,14 @@ fun TopBar(
             }
         },
         title = {
-            Box(
+            Text(
+                text = title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 22.sp,
                 modifier = Modifier
-                    .padding(start = 10.dp)
-            ) {
-                Text(
-                    text = title,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 22.sp
-                )
-            }
+                    .padding(start = 20.dp),
+                color = Color(0xFF384A57)
+            )
 
         },
         elevation = 0.dp,

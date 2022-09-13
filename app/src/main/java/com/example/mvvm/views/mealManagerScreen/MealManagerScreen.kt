@@ -1,11 +1,15 @@
 package com.example.mvvm.views.mealManagerScreen
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.mvvm.viewmodels.MealListState
 import com.example.mvvm.viewmodels.MealViewModel
+import com.example.mvvm.views.mealManagerScreen.components.BottomBar
 import com.example.mvvm.views.mealManagerScreen.components.MealManagerList
 import com.example.mvvm.views.mealManagerScreen.components.TopBar
 
@@ -13,24 +17,30 @@ import com.example.mvvm.views.mealManagerScreen.components.TopBar
 @Composable
 fun MealsManagerScreen(
     navigateToLogin: () -> Unit,
+    navigateToUserManager: () -> Unit,
     isRefreshing: Boolean,
     refreshData: () -> Unit,
     state: MealListState,
     mealViewModel: MealViewModel,
     navController: NavController
 ) {
-    Column {
-        val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
-        val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
 
-        TopBar("Gestor de Comidas", navigateToLogin, sheetState)
-        MealManagerList(
-            state,
-            isRefreshing,
-            refreshData,
-            scaffoldState,
-            mealViewModel,
-            navController
-        )
+    val modalBottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+
+    Scaffold(
+        topBar = { TopBar("Gestor de Comidas", modalBottomSheetState) },
+        bottomBar = { BottomBar(navigateToLogin, navigateToUserManager) }
+    ) {
+        Column {
+            MealManagerList(
+                state,
+                isRefreshing,
+                refreshData,
+                modalBottomSheetState,
+                mealViewModel,
+                navController
+            )
+        }
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mvvm.navigation.AppScreens
 import com.example.mvvm.viewmodels.UserViewModel
@@ -59,20 +60,21 @@ fun FormBtn(
                     if (style == 0) Color(0xFF39439D) else Color.White
                     )
         ),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(20.dp),
         border = BorderStroke(1.dp, Color(0xFF39439D)),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(40.dp, 10.dp)
-            .height(55.dp)
-        ) {
+            .padding(start = 40.dp, end = 40.dp, top = 5.dp, bottom = 10.dp)
+            .height(60.dp)
+    ) {
             Text(
                 text = text,
                 color = (
-                    if (style == 0) Color.White else Color(0xFF39439D)
-                ),
+                        if (style == 0) Color.White else Color(0xFF39439D)
+                        ),
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                fontSize = 15.sp
             )
         }
 }

@@ -22,22 +22,22 @@ fun RedirectLink(
 ) {
     Row(
         modifier = Modifier.padding(
-            top = 10.dp,
+            top = 30.dp,
             bottom = 10.dp
         )
     ) {
         Text(
             text = text,
             color = Color(0xFFA0A0A0),
-            fontSize = 15.sp
+            fontSize = 16.sp
         )
 
         ClickableText (
             text = AnnotatedString(link),
-            style = TextStyle (
+            style = TextStyle(
                 color = Color(0xFF646DB3),
                 fontWeight = FontWeight.Bold,
-                fontSize = 15.sp,
+                fontSize = 16.sp,
             ),
             onClick = { navigateToRegister() }
         )

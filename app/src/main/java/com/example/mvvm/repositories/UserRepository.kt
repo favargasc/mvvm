@@ -18,7 +18,7 @@ class UserRepository
         try {
             val userList = db.collection("users")
 
-            userList.document(user.dni).set(user)
+            userList.document(user.studentEmail).set(user)
         } catch (e: Exception) {
             e.printStackTrace()
         }

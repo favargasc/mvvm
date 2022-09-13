@@ -9,8 +9,10 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,13 +46,15 @@ fun UserManagerDetail(
         ) {
 
             Image(
-                painter = rememberAsyncImagePainter(model = "https://bit.ly/3L4qmNs"),
+                painter = rememberAsyncImagePainter(model = "https://i.ibb.co/0Jmshvb/no-image.png"),
                 contentDescription = "",
                 modifier = Modifier
                     .padding(10.dp)
-                    .size(110.dp),
-                contentScale = ContentScale.FillBounds
-            )
+                    .size(110.dp)
+                    .clip(RoundedCornerShape(15.dp)),
+                contentScale = ContentScale.FillBounds,
+
+                )
 
             Column(
                 Modifier
@@ -60,15 +64,16 @@ fun UserManagerDetail(
             ) {
                 Text(
                     text = user.fullName + " " + user.lastName + " " + user.maidenName,
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                    color = Color(0xFF656565)
+                    color = Color(0xFF34495E),
+                    fontWeight = FontWeight.SemiBold
                 )
                 Text(
                     text = user.dsi,
                     fontSize = 18.sp,
                     modifier = Modifier.padding(top = 5.dp, bottom = 10.dp),
-                    color = Color(0xFF656565)
+                    color = Color(0xFFB1BFC6)
                 )
             }
 

@@ -12,61 +12,44 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
 fun TopBar(
     title: String,
-    navigateToLogin: () -> Unit,
-    sheetState: BottomSheetState
+    modalBottomSheetState: ModalBottomSheetState,
 ) {
     val scope = rememberCoroutineScope()
-    var showMenu1 by remember { mutableStateOf(false) }
 
     TopAppBar(
-        backgroundColor = Color(0xFFFCFCFC),
-        navigationIcon = {
-            IconButton(onClick = navigateToLogin) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(30.dp)
-                )
-            }
-        },
+        backgroundColor = Color.White,
         title = {
-            Box(
+            Text(
+                text = title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 22.sp,
                 modifier = Modifier
-                    .padding(start = 10.dp)
-            ) {
-                Text(
-                    text = title,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 22.sp
-                )
-            }
-
+                    .padding(start = 45.dp),
+                color = Color(0xFF384A57)
+            )
         },
         actions = {
             IconButton(onClick = {
                 scope.launch {
-                    if (sheetState.isCollapsed) {
-                        if (showMenu1) showMenu1 = false
-                        sheetState.expand()
-                    } else {
-                        sheetState.collapse()
-                    }
-
+                    if (!modalBottomSheetState.isVisible)
+                        modalBottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+                    else
+                        modalBottomSheetState.animateTo(ModalBottomSheetValue.Hidden)
                 }
             }) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                    painter = rememberAsyncImagePainter(model = "https://cdn-icons-png.flaticon.com/512/3303/3303893.png"),
                     contentDescription = "",
                     modifier = Modifier
                         .size(30.dp),
-                    tint = Color(0xFF000000)
+                    tint = Color(0xFF384A57)
                 )
             }
         },

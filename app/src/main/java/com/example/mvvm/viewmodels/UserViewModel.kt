@@ -52,13 +52,13 @@ class UserViewModel
             .get()
             .await()
             .map { document -> document.toObject(User::class.java) }
-        return users[0].dsi
+        return users[0].studentEmail
     }
 
-    suspend fun getUser(dsi: String): User {
+    suspend fun getUser(studentEmail: String): User {
         val users = userRepository.db
             .collection("users")
-            .whereEqualTo("dsi", dsi)
+            .whereEqualTo("studentEmail", studentEmail)
             .get()
             .await()
             .map { document -> document.toObject(User::class.java) }

@@ -58,6 +58,7 @@ fun AppNavigation(
 
             MealsManagerScreen(
                 navigateToLogin = { navController.navigate(AppScreens.LoginScreen.route) },
+                navigateToUserManager = { navController.navigate(AppScreens.UsersManagerScreen.route) },
                 isRefreshing = isRefreshing.value,
                 refreshData = mealViewModel::getMealList,
                 state = state,

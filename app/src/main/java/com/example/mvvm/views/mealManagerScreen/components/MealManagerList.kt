@@ -7,26 +7,21 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.mvvm.models.*
+import com.example.mvvm.models.Meal
+import com.example.mvvm.models.Time
+import com.example.mvvm.models.Type
 import com.example.mvvm.viewmodels.MealListState
 import com.example.mvvm.viewmodels.MealViewModel
 import com.example.mvvm.views.FormEntry
-import com.example.mvvm.views.FormLabel
-import com.example.mvvm.views.mainMenuScreen.components.ProductDetail
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 @ExperimentalMaterialApi
@@ -35,12 +30,13 @@ fun MealManagerList(
     state: MealListState,
     isRefreshing: Boolean,
     refreshData: () -> Unit,
-    scaffoldState: BottomSheetScaffoldState,
+    modalBottomSheetState: ModalBottomSheetState,
     mealViewModel: MealViewModel,
     navController: NavController
 ) {
-    BottomSheetScaffold(
-        scaffoldState = scaffoldState,
+    ModalBottomSheetLayout(
+        modifier = Modifier.fillMaxSize(),
+        sheetState = modalBottomSheetState,
         sheetContent = {
             val (name, setName) = remember { mutableStateOf("") }
             val (cost, setCost) = remember { mutableStateOf("") }
@@ -54,13 +50,16 @@ fun MealManagerList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Column(
-                    Modifier.padding(vertical = 50.dp, horizontal = 44.dp)
+                    Modifier
+                        .padding(vertical = 30.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     FormEntry("Nombre", name, setName)
                     FormEntry("Costo", cost, setCost)
                     FormEntry("Imagen", img, setImg)
 
-                    Row {
+                    Row(Modifier.padding(end = 100.dp)) {
                         Text(
                             text = "Disponibilidad",
                             fontSize = 14.sp,
@@ -90,18 +89,20 @@ fun MealManagerList(
                         )
                     }
                     Button(
+                        shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(top = 40.dp)
-                            .height(60.dp),
+                            .height(60.dp)
+                            .width(269.dp),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF39439D)
+                            backgroundColor = Color(0xFF0069FE)
                         ),
                         onClick = {
                             val id =
                                 UUID.randomUUID().toString().replace("-", "").removeRange(8, 32)
 
-                            val imgPref = if (img == "") "https://bit.ly/3RCDN9U" else img
+                            val imgPref =
+                                if (img == "") "https://i.ibb.co/0Jmshvb/no-image.png" else img
                             mealViewModel.addNewMeal(
                                 Meal(
                                     id,
@@ -113,12 +114,11 @@ fun MealManagerList(
                                     imgPref
                                 )
                             )
-                        },
-                        shape = RoundedCornerShape(20.dp)
+                        }
                     ) {
                         Text(
                             text = "Agregar",
-                            fontSize = 18.sp,
+                            fontSize = 17.sp,
                             color = Color.White
                         )
                     }
@@ -132,7 +132,7 @@ fun MealManagerList(
         SwipeRefresh(state = rememberSwipeRefreshState(isRefreshing), onRefresh = refreshData) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .height(580.dp)
                     .background(Color(0xFFFCFCFC)),
             ) {
                 items(

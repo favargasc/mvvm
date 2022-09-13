@@ -27,7 +27,7 @@ fun FormEntry(
     ) {
         Text(
             text = text,
-            fontSize = 14.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(4.dp)
         )

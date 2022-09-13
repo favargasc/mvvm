@@ -28,7 +28,6 @@ import com.example.mvvm.views.mealManagerScreen.components.ComboBoxType
 import com.example.mvvm.views.mealManagerScreen.components.MealManagerDetail
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import java.util.*
 
 @ExperimentalMaterialApi
 @Composable
@@ -41,9 +40,7 @@ fun UserManagerList(
 ) {
     SwipeRefresh(state = rememberSwipeRefreshState(isRefreshing), onRefresh = refreshData) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFFFCFCFC)),
+            modifier = Modifier.background(Color(0xFFFCFCFC))
         ) {
             items(
                 items = state.meals

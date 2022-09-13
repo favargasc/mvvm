@@ -1,26 +1,22 @@
 package com.example.mvvm.viewmodels
 
+import android.R
 import android.content.ContentValues
 import android.content.ContentValues.TAG
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.os.Build
+import android.transition.TransitionInflater.from
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import android.widget.ImageView
 import androidx.lifecycle.ViewModel
-import com.example.mvvm.models.CartMeal
-import com.example.mvvm.models.User
 import com.google.zxing.BarcodeFormat
-import com.google.zxing.qrcode.QRCodeWriter
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.qrcode.encoder.QRCode
 import com.itextpdf.text.*
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
 import java.io.FileOutputStream
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.text.Format
 import java.util.*
 import javax.activation.DataHandler
 import javax.activation.DataSource
@@ -31,6 +27,18 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
+import android.content.ContextWrapper
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.example.mvvm.models.CartMeal
+import com.example.mvvm.models.Meal
+import com.example.mvvm.models.User
+import com.google.zxing.qrcode.QRCodeWriter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @HiltViewModel

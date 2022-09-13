@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.*
 import androidx.navigation.NavController
 import com.example.mvvm.models.User
 import com.example.mvvm.navigation.AppScreens
-import com.example.mvvm.viewmodels.Email
 import com.example.mvvm.viewmodels.UserViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate
@@ -33,7 +32,7 @@ import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun RegisterScreen(context: Context, navController: NavController, userViewModel: UserViewModel, email: Email) {
+fun RegisterScreen(context: Context, navController: NavController, userViewModel: UserViewModel) {
     val (dni, setDni) = remember { mutableStateOf("") }
     val (dsi, setDsi) = remember { mutableStateOf("") }
     val (fullName, setFullName) = remember { mutableStateOf("") }
@@ -87,8 +86,7 @@ fun RegisterScreen(context: Context, navController: NavController, userViewModel
             navController,
             AppScreens.LoginScreen.route,
             userViewModel,
-            User(dni, dsi, fullName, lastName, maidenName, age, date, studentEmail, password),
-            email
+            User(dni, dsi, fullName, lastName, maidenName, age, date, studentEmail, password)
         )
     }
 }
@@ -173,7 +171,7 @@ fun BlueInput(age: Int) {
 fun FormLabel(text: String) {
     Text(
         text = text,
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
         modifier = Modifier
             .padding(4.dp)
@@ -230,49 +228,16 @@ fun setAge(day: Int, month: Int, year: Int): Int {
 }
 
 @Composable
-fun FormButton(text: String, navController: NavController, route: String, userViewModel: UserViewModel, user: User, email: Email) {
+fun FormButton(text: String, navController: NavController, route: String, userViewModel: UserViewModel, user: User) {
     Button(
         onClick = {
-            userViewModel.addNewUser(user)
-            navController.navigate(route = route)
-            email.welcomeEmail(user)
-        },
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xFF39439D)
-        ),
-        shape = RoundedCornerShape(10.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                start = 40.dp,
-                end = 40.dp,
-                top = 35.dp,
-                bottom = 10.dp
-            )
-            .height(55.dp)
-    ) {
-        Text(
-            text = text,
-            color = Color.White,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
+            if (user.studentEmail.contains("@estudiantec.cr") || user.studentEmail.contains("@itcr.ac.cr")) {
+                userViewModel.addNewUser(user)
+                navController.navigate(route = route)
+            } else {
+                navController.navigate(route = AppScreens.LoginScreen.route)
+            }
 
-@Composable
-fun FormButton(
-    text: String,
-    navController: NavController,
-    route: String,
-    userViewModel: UserViewModel,
-    studentEmail: String,
-    password: String
-) {
-    Button(
-        onClick = {
-            navController.navigate(route)
-            //userViewModel.isValidUser(studentEmail, password)
         },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF39439D)
@@ -291,28 +256,6 @@ fun FormButton(
         Text(
             text = text,
             color = Color.White,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
-@Composable
-fun LightFormButton(text: String, navController: NavController, route: String) {
-    Button(
-        onClick = { navController.navigate(route = route) },
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color.White,
-        ),
-        shape = RoundedCornerShape(10.dp),
-        border = BorderStroke(1.dp, Color(0xFF39439D)),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(40.dp, 5.dp)
-            .height(55.dp)
-    ) {
-        Text(
-            text = text,
-            color = Color(0xFF39439D),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
         )

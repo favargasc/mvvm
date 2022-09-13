@@ -51,8 +51,8 @@ class MealRepository
             mealRef.update("img", meal.img)
         }
         mealRef.update("availability", meal.availability)
-        mealRef.update("lastName", meal.type)
-        mealRef.update("fullName", meal.time)
+        mealRef.update("type", meal.type)
+        mealRef.update("time", meal.time)
 
     }
 }
