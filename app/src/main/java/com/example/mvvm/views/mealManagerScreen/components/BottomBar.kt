@@ -14,6 +14,7 @@ import coil.compose.rememberAsyncImagePainter
 fun BottomBar(
     navigateToLogin: () -> Unit,
     navigateToUserManager: () -> Unit,
+    navigateToMealTimeManager: () -> Unit,
 ) {
     BottomNavigation(
         backgroundColor = Color.White
@@ -55,7 +56,7 @@ fun BottomBar(
                         .size(30.dp)
                 )
             },
-            onClick = {},
+            onClick = navigateToMealTimeManager,
             selected = true
         )
         BottomNavigationItem(

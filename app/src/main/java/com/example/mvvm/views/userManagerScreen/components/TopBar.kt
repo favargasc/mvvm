@@ -23,7 +23,7 @@ fun TopBar(
     navigateToLogin: () -> Unit,
 ) {
     TopAppBar(
-        backgroundColor = Color(0xFFFCFCFC),
+        backgroundColor = Color.White,
         navigationIcon = {
             IconButton(onClick = navigateToLogin) {
                 Icon(

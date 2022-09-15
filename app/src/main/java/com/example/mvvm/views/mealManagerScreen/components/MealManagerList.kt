@@ -15,9 +15,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mvvm.models.Meal
+import com.example.mvvm.models.MealSelectable
 import com.example.mvvm.models.Time
 import com.example.mvvm.models.Type
 import com.example.mvvm.viewmodels.MealListState
+import com.example.mvvm.viewmodels.MealSelectableListState
 import com.example.mvvm.viewmodels.MealViewModel
 import com.example.mvvm.views.FormEntry
 import com.google.accompanist.swiperefresh.SwipeRefresh

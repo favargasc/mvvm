@@ -24,6 +24,7 @@ import com.example.mvvm.views.mainMenuScreen.MainMenuScreen
 import com.example.mvvm.views.shoppingCartScreen.ShoppingCartScreen
 import com.example.mvvm.views.mealManagerScreen.MealsManagerScreen
 import com.example.mvvm.views.mealManagerScreen.ModifyMeal
+import com.example.mvvm.views.mealTimeManagerScreen.MealTimeManagerScreen
 import com.example.mvvm.views.userManagerScreen.ModifyUser
 import com.example.mvvm.views.userManagerScreen.UserManagerScreen
 import com.example.mvvm.views.userManagerScreen.UserLog
@@ -42,7 +43,7 @@ fun AppNavigation(
 
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = AppScreens.MealsManagerScreen.route) {
+    NavHost(navController = navController, startDestination = AppScreens.LoginScreen.route) {
         composable(route = AppScreens.LoginScreen.route) {
             LoginScreen(
                 navigateToRegister = { navController.navigate(AppScreens.RegisterScreen.route) },
@@ -59,6 +60,7 @@ fun AppNavigation(
             MealsManagerScreen(
                 navigateToLogin = { navController.navigate(AppScreens.LoginScreen.route) },
                 navigateToUserManager = { navController.navigate(AppScreens.UsersManagerScreen.route) },
+                navigateToMealTimeManager = { navController.navigate(AppScreens.MealTimeManagerScreen.route) },
                 isRefreshing = isRefreshing.value,
                 refreshData = mealViewModel::getMealList,
                 state = state,
@@ -72,7 +74,7 @@ fun AppNavigation(
             val isRefreshing = userViewModel.isRefreshing.collectAsState()
 
             UserManagerScreen(
-                navigateToLogin = { navController.navigate(AppScreens.LoginScreen.route) },
+                navigateToMealManager = { navController.navigate(AppScreens.MealsManagerScreen.route) },
                 isRefreshing = isRefreshing.value,
                 refreshData = userViewModel::getUserList,
                 state = state,
@@ -101,7 +103,7 @@ fun AppNavigation(
             }
         }
         composable(route = AppScreens.RegisterScreen.route) {
-            RegisterScreen(context, navController, userViewModel, email)
+            RegisterScreen(context, navController, userViewModel)
         }
 
         composable(route = AppScreens.ShoppingCartScreen.route) { backStackEntry ->
@@ -137,7 +139,7 @@ fun AppNavigation(
                 val state = invoiceViewModel.state.value
 
                 UserLog(
-                    navigateToLogin = { navController.navigate(AppScreens.LoginScreen.route) },
+                    navigateToUserManager = { navController.navigate(AppScreens.UsersManagerScreen.route) },
                     state = state,
                     it
                 )
@@ -152,6 +154,18 @@ fun AppNavigation(
                     it
                 )
             }
+        }
+        composable(route = AppScreens.MealTimeManagerScreen.route) {
+            val state = mealViewModel.state.value
+            val isRefreshing = mealViewModel.isRefreshing.collectAsState()
+
+            MealTimeManagerScreen(
+                navigateToMealManager = { navController.navigate(AppScreens.MealsManagerScreen.route) },
+                isRefreshing = isRefreshing.value,
+                refreshData = mealViewModel::getMealList,
+                state = state,
+                mealViewModel
+            )
         }
     }
 }

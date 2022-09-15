@@ -41,6 +41,7 @@ fun MainMenuScreen(
 ) {
     val (type, setType) = remember { mutableStateOf(-1) }
     val (time, setTime) = remember { mutableStateOf(-1) }
+    val (search, setSearch) = remember { mutableStateOf("") }
     val ordersTemp = remember { mutableStateListOf<CartMeal>()}
 
     Column(
@@ -52,7 +53,7 @@ fun MainMenuScreen(
             navController,
             userId = userId
         )
-        val search=SearchBar()
+        SearchBar(search, setSearch)
         OptionSelector(mealsIcons, type, setType)
         OptionSelector(mealsIcons2, time, setTime)
         MealList(

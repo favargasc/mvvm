@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mvvm.models.Meal
-import com.example.mvvm.models.User
 import com.example.mvvm.repositories.MealRepository
 import com.example.mvvm.repositories.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,5 +56,9 @@ class MealViewModel
 
     fun modifyMeal(meal: Meal, mealId: String) {
         mealRepository.modifyMeal(meal, mealId)
+    }
+
+    fun modifyMealTime(mealId: String, mealTime: Int) {
+        mealRepository.modifyMealTime(mealId, mealTime)
     }
 }

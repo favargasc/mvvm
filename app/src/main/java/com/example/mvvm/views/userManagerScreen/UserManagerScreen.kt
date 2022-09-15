@@ -13,7 +13,7 @@ import com.example.mvvm.views.userManagerScreen.components.UserManagerList
 @ExperimentalMaterialApi
 @Composable
 fun UserManagerScreen(
-    navigateToLogin: () -> Unit,
+    navigateToMealManager: () -> Unit,
     isRefreshing: Boolean,
     refreshData: () -> Unit,
     state: UserListState,
@@ -21,7 +21,7 @@ fun UserManagerScreen(
     navController: NavController
 ) {
     Column {
-        TopBar("Gestor de Usuarios", navigateToLogin)
+        TopBar("Gestor de Usuarios", navigateToMealManager)
         UserManagerList(state, isRefreshing, refreshData, userViewModel, navController)
     }
 }

@@ -1,9 +1,6 @@
 package com.example.mvvm.viewmodels
 
-import com.example.mvvm.models.CartMeal
-import com.example.mvvm.models.Invoice
-import com.example.mvvm.models.Meal
-import com.example.mvvm.models.User
+import com.example.mvvm.models.*
 
 data class MealListState(
     val isLoading: Boolean = false,
@@ -11,9 +8,9 @@ data class MealListState(
     val error: String = ""
 )
 
-data class CartMealListState(
+data class MealSelectableListState(
     val isLoading: Boolean = false,
-    val meals: List<CartMeal> = emptyList(),
+    val meals: List<MealSelectable> = emptyList(),
     val error: String = ""
 )
 

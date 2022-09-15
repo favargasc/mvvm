@@ -1,15 +1,14 @@
 package com.example.mvvm.views.shoppingCartScreen.components
 
 import android.annotation.SuppressLint
-import android.os.health.SystemHealthManager
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,12 +18,6 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.mvvm.models.CartMeal
-import com.example.mvvm.models.Meal
-import com.example.mvvm.viewmodels.CartMealListState
-import com.example.mvvm.viewmodels.MealListState
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import java.util.*
 
 @SuppressLint("UnrememberedMutableState")
 @ExperimentalUnitApi

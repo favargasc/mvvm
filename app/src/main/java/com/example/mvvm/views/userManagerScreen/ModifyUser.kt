@@ -55,7 +55,7 @@ fun ModifyUser(
             .verticalScroll(rememberScrollState())
     ) {
 
-        TopBar("Editor de Usuarios", navigateToUserManager)
+        TopBar("Editor de Usuario", navigateToUserManager)
         Spacer(modifier = Modifier.height(20.dp))
         FormEntry("Número de cédula", dni, setDni)
         FormEntry("Número de carné", dsi, setDsi)

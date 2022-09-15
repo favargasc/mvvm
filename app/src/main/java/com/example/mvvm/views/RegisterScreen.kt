@@ -43,9 +43,6 @@ fun RegisterScreen(context: Context, navController: NavController, userViewModel
     val (studentEmail, setStudentEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
 
-    val background = remember { mutableStateOf(Color(0xFFF0F5FE)) }
-    val border = remember { mutableStateOf(Color(0xFFF0F5FE)) }
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier

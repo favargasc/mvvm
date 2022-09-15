@@ -17,12 +17,12 @@ import com.example.mvvm.views.userManagerScreen.components.UserLogDetail
 @ExperimentalMaterialApi
 @Composable
 fun UserLog(
-    navigateToLogin: () -> Unit,
+    navigateToUserManager: () -> Unit,
     state: InvoicesListState,
     userId: String
 ) {
     Column {
-        TopBar("Historial de Compras", navigateToLogin)
+        TopBar("Historial de Compras", navigateToUserManager)
 
         LazyColumn(
             modifier = Modifier

@@ -51,7 +51,7 @@ fun MealList(
                     }
                 }
                 if (type == -1 && meal.name.lowercase().contains(search)) {
-                    if (meal.time == time) {
+                    if (meal.time == time && meal.name.lowercase().contains(search)) {
                         ProductDetail(meal, count, setCount)
                     }
                 }

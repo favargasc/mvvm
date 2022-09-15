@@ -1,4 +1,4 @@
-package com.example.mvvm.views.mealManagerScreen.components
+package com.example.mvvm.views.mealTimeManagerScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,14 +20,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.mvvm.models.Meal
-import com.example.mvvm.models.MealSelectable
+import com.example.mvvm.models.Time
 import com.example.mvvm.viewmodels.MealViewModel
 
 @Composable
-fun MealManagerDetail(
+fun MealTimeManagerDetail(
     meal: Meal,
     mealViewModel: MealViewModel,
-    navController: NavController
 ) {
 
     var showMenu1 by remember { mutableStateOf(false) }
@@ -47,14 +46,14 @@ fun MealManagerDetail(
                 contentDescription = "",
                 modifier = Modifier
                     .padding(10.dp)
-                    .size(100.dp)
+                    .size(110.dp)
                     .clip(RoundedCornerShape(15.dp)),
                 contentScale = ContentScale.FillBounds,
             )
             Column(
                 Modifier
                     .padding(horizontal = 5.dp)
-                    .width(80.dp)
+                    .width(160.dp)
             ) {
                 Text(
                     text = meal.name,
@@ -65,18 +64,18 @@ fun MealManagerDetail(
                 )
                 Text(
                     text = (
-                            when (meal.type) {
+                            when (meal.time) {
                                 0 -> {
-                                    "Principal"
+                                    "Desayuno"
                                 }
                                 1 -> {
-                                    "Postre"
+                                    "Almuerzo"
                                 }
                                 2 -> {
-                                    "Acompañamiento"
+                                    "Media Tarde"
                                 }
                                 else -> {
-                                    "Bebida"
+                                    "Cena"
                                 }
                             }
                             ),
@@ -85,24 +84,7 @@ fun MealManagerDetail(
                     color = Color(0xFFB1BFC6)
                 )
             }
-            Column(
-                Modifier
-                    .padding(horizontal = 5.dp)
-                    .width(95.dp)) {
-                Text(
-                    text = "₡${meal.cost}",
-                    fontSize = 19.sp,
-                    modifier = Modifier.padding(top = 27.dp, bottom = 5.dp),
-                    color = Color(0xFF34495E),
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = if (meal.availability) "Disponible" else "Insuficiente",
-                    fontSize = 17.sp,
-                    modifier = Modifier.padding(vertical = 5.dp),
-                    color = Color(0xFFB1BFC6)
-                )
-            }
+
             IconButton(
                 onClick = { showMenu1 = true },
                 modifier = Modifier.padding(bottom = 90.dp)
@@ -120,17 +102,29 @@ fun MealManagerDetail(
                     offset = DpOffset(x = (10).dp, y = (-30).dp)
                 ) {
                     DropdownMenuItem(onClick = {
-                        navController.navigate("modify_meal/${meal.id}")
                         showMenu1 = false
+                        mealViewModel.modifyMealTime(meal.id, Time.BREAKFAST.ordinal)
                     }) {
-                        Text("Editar Comida")
+                        Text("Desayuno")
                     }
 
                     DropdownMenuItem(onClick = {
-                        mealViewModel.removeMeal(meal)
                         showMenu1 = false
+                        mealViewModel.modifyMealTime(meal.id, Time.LUNCH.ordinal)
                     }) {
-                        Text("Eliminar Comida")
+                        Text("Almuerzo")
+                    }
+                    DropdownMenuItem(onClick = {
+                        showMenu1 = false
+                        mealViewModel.modifyMealTime(meal.id, Time.AFTERNOON_TEA.ordinal)
+                    }) {
+                        Text("Media tarde")
+                    }
+                    DropdownMenuItem(onClick = {
+                        showMenu1 = false
+                        mealViewModel.modifyMealTime(meal.id, Time.DINNER.ordinal)
+                    }) {
+                        Text("Cena")
                     }
                 }
             }
