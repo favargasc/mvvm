@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.mvvm.models.Meal
-import com.example.mvvm.models.MealSelectable
 import com.example.mvvm.viewmodels.MealViewModel
 
 @Composable

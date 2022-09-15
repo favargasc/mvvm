@@ -8,12 +8,6 @@ data class MealListState(
     val error: String = ""
 )
 
-data class MealSelectableListState(
-    val isLoading: Boolean = false,
-    val meals: List<MealSelectable> = emptyList(),
-    val error: String = ""
-)
-
 data class UserListState(
     val isLoading: Boolean = false,
     val meals: List<User> = emptyList(),

@@ -1,8 +1,6 @@
 package com.example.mvvm.repositories
 
 import com.example.mvvm.models.Meal
-import com.example.mvvm.models.MealSelectable
-import com.example.mvvm.models.User
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,22 +21,6 @@ class MealRepository
 
             val meals = collection.get().await().map { document ->
                 document.toObject(Meal::class.java)
-            }
-            emit(Result.Success(data = meals))
-
-        } catch (e: Exception) {
-            emit(Result.Error(message = e.localizedMessage ?: "Error Desconocido"))
-        }
-    }
-
-    fun getSelectableMeals(): Flow<Result<List<MealSelectable>>> = flow {
-        try {
-            emit(Result.Loading())
-
-            val collection = db.collection("meals")
-
-            val meals = collection.get().await().map { document ->
-                MealSelectable(document.toObject(Meal::class.java), false)
             }
             emit(Result.Success(data = meals))
 

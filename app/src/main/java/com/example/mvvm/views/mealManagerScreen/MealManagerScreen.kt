@@ -8,7 +8,6 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.mvvm.viewmodels.MealListState
-import com.example.mvvm.viewmodels.MealSelectableListState
 import com.example.mvvm.viewmodels.MealViewModel
 import com.example.mvvm.views.mealManagerScreen.components.BottomBar
 import com.example.mvvm.views.mealManagerScreen.components.MealManagerList
