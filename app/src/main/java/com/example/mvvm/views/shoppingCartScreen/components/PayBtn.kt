@@ -67,13 +67,13 @@ fun PayBtn(
                             mainCost
                         )
                     )
-                    /*
+
                     //create the pdf before clean the order
                     email.createPdf(orders, totalCost)
                     //get the user, and then, get the email to send the bill and QR code
                     email.createQR(user, id)
                     email.sendEmail(user.studentEmail)
-                    */
+                    
                     orders.clear()
                 }
             }
