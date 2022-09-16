@@ -19,6 +19,8 @@ import com.example.mvvm.viewmodels.MealViewModel
 import com.example.mvvm.viewmodels.InvoiceViewModel
 import com.example.mvvm.viewmodels.UserViewModel
 import com.example.mvvm.views.RegisterScreen
+import com.example.mvvm.views.invoicesManagerScreen.InvoiceManagerScreen
+import com.example.mvvm.views.invoicesManagerScreen.ModifyInvoice
 import com.example.mvvm.views.loginScreen.LoginScreen
 import com.example.mvvm.views.mainMenuScreen.MainMenuScreen
 import com.example.mvvm.views.shoppingCartScreen.ShoppingCartScreen
@@ -61,6 +63,7 @@ fun AppNavigation(
                 navigateToLogin = { navController.navigate(AppScreens.LoginScreen.route) },
                 navigateToUserManager = { navController.navigate(AppScreens.UsersManagerScreen.route) },
                 navigateToMealTimeManager = { navController.navigate(AppScreens.MealTimeManagerScreen.route) },
+                navigateToInvoiceManager = { navController.navigate(AppScreens.InvoiceManagerScreen.route) },
                 isRefreshing = isRefreshing.value,
                 refreshData = mealViewModel::getMealList,
                 state = state,
@@ -155,6 +158,18 @@ fun AppNavigation(
                 )
             }
         }
+
+        composable(route = AppScreens.ModifyInvoice.route) { backStackEntry ->
+            backStackEntry.arguments?.getString("invoiceId")?.let {
+                ModifyInvoice(
+                    invoiceViewModel = invoiceViewModel,
+                    navigateToInvoiceManager = { navController.navigate(AppScreens.InvoiceManagerScreen.route) },
+                    context = context,
+                    it
+                )
+            }
+        }
+
         composable(route = AppScreens.MealTimeManagerScreen.route) {
             val state = mealViewModel.state.value
             val isRefreshing = mealViewModel.isRefreshing.collectAsState()
@@ -165,6 +180,20 @@ fun AppNavigation(
                 refreshData = mealViewModel::getMealList,
                 state = state,
                 mealViewModel
+            )
+        }
+
+        composable(route = AppScreens.InvoiceManagerScreen.route) {
+            val state = invoiceViewModel.state.value
+            val isRefreshing = invoiceViewModel.isRefreshing.collectAsState()
+
+            InvoiceManagerScreen(
+                navigateToMealManager = { navController.navigate(AppScreens.MealsManagerScreen.route) },
+                refreshData = invoiceViewModel::getInvoices,
+                state = state,
+                isRefreshing = isRefreshing.value,
+                invoiceViewModel = invoiceViewModel,
+                navController = navController
             )
         }
     }

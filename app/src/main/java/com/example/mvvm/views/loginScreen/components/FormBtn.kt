@@ -41,7 +41,7 @@ fun FormBtn(
         onClick = {
             if (route == 0) {
                 coroutineScope.launch {
-                    val response = userViewModel.authCheck(collegeEmail, password)
+                    val response = userViewModel.authCheckUser(collegeEmail, password)
                     if (!response) {
                         val userId = userViewModel.getUserId(collegeEmail, password)
 
@@ -52,7 +52,12 @@ fun FormBtn(
                     }
                 }
             } else {
-                navigateToMealManager()
+                coroutineScope.launch {
+                    val response = userViewModel.authCheckAdmin(collegeEmail, password)
+
+                    if (!response) navigateToMealManager()
+                    else navigateToLogin()
+                }
             }
         },
         colors = ButtonDefaults.buttonColors(

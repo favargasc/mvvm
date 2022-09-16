@@ -11,5 +11,7 @@ sealed class AppScreens(val route: String) {
     object UserLog : AppScreens(route = "user_log/{userId}")
     object ModifyMeal : AppScreens(route = "modify_meal/{mealId}")
     object MealTimeManagerScreen : AppScreens(route = "meal_time")
+    object InvoiceManagerScreen : AppScreens(route = "invoice_manager")
+    object ModifyInvoice : AppScreens(route = "modify_invoice/{invoiceId}")
 
 }

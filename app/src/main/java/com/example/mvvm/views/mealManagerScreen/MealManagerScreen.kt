@@ -19,6 +19,7 @@ fun MealsManagerScreen(
     navigateToLogin: () -> Unit,
     navigateToUserManager: () -> Unit,
     navigateToMealTimeManager: () -> Unit,
+    navigateToInvoiceManager: () -> Unit,
     isRefreshing: Boolean,
     refreshData: () -> Unit,
     state: MealListState,
@@ -31,7 +32,14 @@ fun MealsManagerScreen(
 
     Scaffold(
         topBar = { TopBar("Gestor de Comidas", modalBottomSheetState) },
-        bottomBar = { BottomBar(navigateToLogin, navigateToUserManager, navigateToMealTimeManager) }
+        bottomBar = {
+            BottomBar(
+                navigateToLogin,
+                navigateToUserManager,
+                navigateToMealTimeManager,
+                navigateToInvoiceManager
+            )
+        }
     ) {
         Column {
             MealManagerList(

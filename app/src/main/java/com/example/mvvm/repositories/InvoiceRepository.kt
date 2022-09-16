@@ -41,4 +41,19 @@ class InvoiceRepository
             emit(Result.Error(message = e.localizedMessage ?: "Error Desconocido"))
         }
     }
+
+    fun removeInvoice(invoice: Invoice) {
+        db.collection("invoices").document(invoice.id).delete()
+    }
+
+    fun modifyInvoice(id: String, date: String, invoiceId: String) {
+        val invRef = db.collection("invoices").document(invoiceId)
+
+        if (id != "") {
+            invRef.update("id", id)
+        }
+        if (date != "") {
+            invRef.update("date", date)
+        }
+    }
 }

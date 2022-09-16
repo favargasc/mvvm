@@ -50,4 +50,12 @@ class InvoiceViewModel
             }
         }.launchIn(viewModelScope)
     }
+
+    fun removeInvoice(invoice: Invoice) {
+        invoiceRepository.removeInvoice(invoice)
+    }
+
+    fun modifyInvoice(id: String, date: String, invoiceId: String) {
+        invoiceRepository.modifyInvoice(id, date, invoiceId)
+    }
 }

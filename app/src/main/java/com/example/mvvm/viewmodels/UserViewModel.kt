@@ -37,13 +37,26 @@ class UserViewModel
         userRepository.addNewUser(user)
     }
 
-    suspend fun authCheck(collegeEmail: String, password: String): Boolean {
+    suspend fun authCheckUser(collegeEmail: String, password: String): Boolean {
         return userRepository.db.collection("users")
-            .whereEqualTo("studentEmail", collegeEmail).whereEqualTo("password", password)
+            .whereEqualTo("studentEmail", collegeEmail)
+            .whereEqualTo("password", password)
+            .whereEqualTo("admin", false)
             .get()
             .await()
             .isEmpty
     }
+
+    suspend fun authCheckAdmin(collegeEmail: String, password: String): Boolean {
+        return userRepository.db.collection("users")
+            .whereEqualTo("studentEmail", collegeEmail)
+            .whereEqualTo("password", password)
+            .whereEqualTo("admin", true)
+            .get()
+            .await()
+            .isEmpty
+    }
+
 
     suspend fun getUserId(collegeEmail: String, password: String): String {
         val users = userRepository.db

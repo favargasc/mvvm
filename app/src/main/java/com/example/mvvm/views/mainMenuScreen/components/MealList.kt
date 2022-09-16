@@ -36,37 +36,41 @@ fun MealList(
             items(
                 items = state.meals
             ) { meal ->
+                if (meal.availability) {
+                    val (count, setCount) = rememberSaveable { mutableStateOf(0) }
 
-                val (count, setCount) = rememberSaveable { mutableStateOf(0) }
-
-                if (time == -1 && type == -1 && meal.name.lowercase().contains(search)) {
-                    ProductDetail(meal, count, setCount)
-                }
-                if (meal.type == type && meal.time == time && meal.name.lowercase().contains(search)) {
-                    ProductDetail(meal, count, setCount)
-                }
-                if (time == -1 && meal.name.lowercase().contains(search)) {
-                    if (meal.type == type && meal.name.lowercase().contains(search)) {
+                    if (time == -1 && type == -1 && meal.name.lowercase().contains(search)) {
                         ProductDetail(meal, count, setCount)
                     }
-                }
-                if (type == -1 && meal.name.lowercase().contains(search)) {
-                    if (meal.time == time && meal.name.lowercase().contains(search)) {
+                    if (meal.type == type && meal.time == time && meal.name.lowercase()
+                            .contains(search)
+                    ) {
                         ProductDetail(meal, count, setCount)
                     }
-                }
-                val cartMeal: CartMeal? = orders.find { it.meal?.id == meal.id }
-
-                val id: String = UUID.randomUUID().toString().replace("-", "").removeRange(8, 32)
-
-                if (cartMeal != null) {
-                    if (cartMeal.count < count && count != 0) {
-                        orders.remove(cartMeal)
-                        orders.add(CartMeal(id, meal, count))
+                    if (time == -1 && meal.name.lowercase().contains(search)) {
+                        if (meal.type == type && meal.name.lowercase().contains(search)) {
+                            ProductDetail(meal, count, setCount)
+                        }
                     }
-                } else {
-                    if (count != 0) {
-                        orders.add(CartMeal(id, meal, count))
+                    if (type == -1 && meal.name.lowercase().contains(search)) {
+                        if (meal.time == time && meal.name.lowercase().contains(search)) {
+                            ProductDetail(meal, count, setCount)
+                        }
+                    }
+                    val cartMeal: CartMeal? = orders.find { it.meal?.id == meal.id }
+
+                    val id: String =
+                        UUID.randomUUID().toString().replace("-", "").removeRange(8, 32)
+
+                    if (cartMeal != null) {
+                        if (cartMeal.count < count && count != 0) {
+                            orders.remove(cartMeal)
+                            orders.add(CartMeal(id, meal, count))
+                        }
+                    } else {
+                        if (count != 0) {
+                            orders.add(CartMeal(id, meal, count))
+                        }
                     }
                 }
             }
